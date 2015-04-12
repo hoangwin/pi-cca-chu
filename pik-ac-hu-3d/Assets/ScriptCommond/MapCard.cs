@@ -32,6 +32,7 @@ public class MapCard : MonoBehaviour {
     static ArrayList arrayListPair = new ArrayList();// luu vao 4
     Direction[] d; // Hướng đi của đường đi tạm
     // Ví dụ: Up -> Left -> Left -> ...
+    public static int countCardLive;
     public static MapCard instance;
     public enum Direction
     {
@@ -39,6 +40,8 @@ public class MapCard : MonoBehaviour {
     }
     void Start()
     {
+        GameEventManager.GameReStart += InitReset;
+
         instance = this;
         CELL_WIDTH = ((Collider)(templateGround.GetComponent<Collider>())).bounds.size.x + 0.1f;
         CELL_HEIGHT = ((Collider)(templateGround.GetComponent<Collider>())).bounds.size.z + 0.1f;
@@ -49,48 +52,69 @@ public class MapCard : MonoBehaviour {
         tX = new int[MAX];
         tY = new int[MAX];
         d = new Direction[MAX];
+        InitReset();       
+    }
 
-        CardMatrix = new Card[ROW + 2][]; // tạo ma trận các thẻ hình
-
-        // Mảng này cho biết mỗi hình xuất hiện mấy lần
-        
+    public void InitReset()
+    {
         int k = 0;
-        
+        if (CardMatrix == null)
+            CardMatrix = new Card[ROW + 2][]; // tạo ma trận các thẻ hình
         for (int i = 0; i < ROW + 2; i++)
         {
-            CardMatrix[i] = new Card[COL + 2];
-        
+            if (CardMatrix[i] ==null)
+                CardMatrix[i] = new Card[COL + 2];
+
             for (int j = 0; j < COL + 2; j++)
             {
-        
+
                 if (i == 0 || i == ROW + 1 || j == 0 || j == COL + 1)
                 {
-                    Object obj;
-                    obj = (Instantiate(templateGround, templateGround.transform.position, Quaternion.identity));
-                    Transform tran = (Transform)obj;
-                    tran.gameObject.SetActive(false);
-                    tran.Translate((-j + 1) * CELL_HEIGHT, 0, (i - 1) * CELL_WIDTH);
-                    CardMatrix[i][j] = tran.gameObject.GetComponent<Card>();
-                    CardMatrix[i][j].fixPosition = tran.position;
-        
-                    CardMatrix[i][j].Value = -1;
-                    CardMatrix[i][j].X = j;
-                    CardMatrix[i][j].Y = i;
-        
+
+                
+                    if (CardMatrix[i][j] == null)
+                    {
+                        Object obj;
+                        obj = (Instantiate(templateGround, templateGround.transform.position, Quaternion.identity));
+                        Transform tran = (Transform)obj;
+                        tran.gameObject.SetActive(false);
+                        tran.Translate((-j + 1) * CELL_HEIGHT, 0, (i - 1) * CELL_WIDTH);
+                        CardMatrix[i][j] = tran.gameObject.GetComponent<Card>();
+                        CardMatrix[i][j].fixPosition = tran.position;
+
+                        CardMatrix[i][j].Value = -1;
+                        CardMatrix[i][j].X = j;
+                        CardMatrix[i][j].Y = i;
+                    }
+
                 }
                 else
                 {
                     Object obj;
-                    if ((i + j) % 2 == 0)
-                        obj = (Instantiate(templateGround, templateGround.transform.position, Quaternion.identity));
+                     Transform tran;
+                    if (CardMatrix[i][j] == null)
+                    {
+
+                        if ((i + j) % 2 == 0)
+                            obj = (Instantiate(templateGround, templateGround.transform.position, Quaternion.identity));
+                        else
+                            obj = (Instantiate(templateGround1, templateGround.transform.position, Quaternion.identity));
+                        tran = (Transform)obj;
+                        tran.Translate((-j + 1) * CELL_HEIGHT, 0, (i - 1) * CELL_WIDTH);
+                    }
                     else
-                        obj = (Instantiate(templateGround1, templateGround.transform.position, Quaternion.identity));
-                    Transform tran = (Transform)obj;
+                    {
+                        obj = CardMatrix[i][j].objectBox;
+                        if (CardMatrix[i][j].renderrerObject != null)
+                            GameObject.Destroy(CardMatrix[i][j].renderrerObject);
+                        tran = CardMatrix[i][j].gameObject.transform;
+                    }
+                   
                     tran.gameObject.SetActive(true);
-                    tran.Translate((-j + 1) * CELL_HEIGHT, 0, (i - 1) * CELL_WIDTH);
+                  
                     //  tran.Rotate(180, 0, 0);
                     int _index = k / 4;
-                    Debug.Log(_index);
+                    // Debug.Log(_index);
                     Transform objChar = (Transform)(Instantiate(Character[_index], templateGround.transform.position, Quaternion.identity));
                     objChar.gameObject.SetActive(true);
                     objChar.Translate((-j + 1) * CELL_HEIGHT, 0, (i - 1) * CELL_WIDTH);
@@ -103,12 +127,15 @@ public class MapCard : MonoBehaviour {
                     CardMatrix[i][j].Value = _index;
                     CardMatrix[i][j].X = j;
                     CardMatrix[i][j].Y = i;
-
                     k++;
                 }
             }
         }
+        if (GamePlay.instance.tranformObjSelect != null)
+            GamePlay.instance.tranformObjSelect.gameObject.GetComponent<Card>().objectBox.GetComponent<Renderer>().material.shader = PlatformManager.instance.shaderNormal;
         autoSortMap();
+        countCardLive = COL * ROW;
+        GamePlay.instance.timeBegin = 90;
     }
     private int CountTurn(Direction[] d, int tCount)
     {
@@ -334,87 +361,49 @@ public class MapCard : MonoBehaviour {
 
     public static void DrawPath()
     {
-        Vector3[] waypoints = new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 1, 0) };
+        Vector3[] waypoints1;
+        Vector3[] waypoints2;
 
-        waypoints = new Vector3[rCount];
-
-        for (int i = 0; i < rCount ; i++)
+        waypoints1 = new Vector3[rCount / 2 + 1];
+        waypoints2 = new Vector3[rCount / 2 + 1];
+        Vector3 posCenter1 = CardMatrix[rY[(rCount-1) / 2]][rX[(rCount-1) / 2]].transform.position;
+        Vector3 posCenter2 = CardMatrix[rY[rCount / 2]][rX[rCount / 2]].transform.position;
+        if (rCount % 2 == 0)
         {
-            Debug.Log(rCount - 1 - i +"," + rX[i] + "," + rY[i]);
-         //   Debug.Log(CardMatrix[rY[i]][rX[i]]);
-            waypoints[rCount-1- i] = CardMatrix[rY[i]][rX[i]].transform.position;
-         //   Debug.Log(i);
+           // if (posCenter1.x == posCenter2.x || posCenter1.z == posCenter2.z)
+            {
+                posCenter1.x = (posCenter1.x + posCenter2.x) / 2;
+                posCenter1.z = (posCenter1.z + posCenter2.z) / 2; 
+            }
+          
         }
-
-        CardMatrix[CardY1][CardX1].willPaird = CardMatrix[CardY2][CardX2].gameObject;
-        iTween.MoveTo(CardMatrix[CardY1][CardX1].transform.gameObject, iTween.Hash("path", waypoints, "time",rCount*0.10,"EaseType","linear","oncomplete","Movecompleted"));
        
-       
-        /*
-		if (!effect1.sprite.hasAnimationFinished(effect1._currentAnimation, effect1._currentFrame, effect1._waitDelay)) {
+        for (int i = 0; i < rCount / 2; i++)
+        {
+         //   Debug.Log(rCount/2 - 1 - i +"," + rX[i] + "," + rY[i]);
 
-			effect1.sprite.drawAnim(g, effect1, CardX1 * CELL_WIDTH + BEGIN_X, CardY1 * CELL_HEIGHT + BEGIN_Y);
-			effect2.sprite.drawAnim(g, effect2, CardX2 * CELL_WIDTH + BEGIN_X, CardY2 * CELL_HEIGHT + BEGIN_Y);
-		}
-		int i, x1 = 0, y1 = 0, x2, y2;
-		if (countFrameDrawPath-- >= 0) {
-
-			FruitLink.mainPaint.setStyle(Style.STROKE);
-			FruitLink.mainPaint.setStrokeWidth(5);
-			FruitLink.mainPaint.setColor(Color.BLUE);
-
-			x1 = rX[0] * CELL_WIDTH + CELL_WIDTH / 2 + BEGIN_X;
-			y1 = rY[0] * CELL_HEIGHT + CELL_HEIGHT / 2 + BEGIN_Y; // (y1, x1) là tâm của thẻ hình thứ 2
-
-			//align path
-			if (rX[0] == 0)
-				x1 = x1 + 2 * CELL_WIDTH / 5;
-			else if (rX[0] == COL + 1)
-				x1 = x1 - 2 * CELL_WIDTH / 5;
-			if (rY[0] == 0)
-				y1 = y1 + 2 * CELL_HEIGHT / 5;
-			else if (rY[0] == ROW + 1)
-				y1 = y1 - 2 * CELL_HEIGHT / 5;
-			//align path 
-
-			for (i = 1; i < rCount; i++) {
-				x2 = rX[i] * CELL_WIDTH + CELL_WIDTH / 2 + BEGIN_X;
-				y2 = rY[i] * CELL_HEIGHT + CELL_HEIGHT / 2 + BEGIN_Y; // (y1, x1) là tâm của các ô đi qua
-
-				//align path		
-				if (rX[i] == 0)
-					x2 = x2 + 2 * CELL_WIDTH / 5;
-				else if (rX[i] == COL + 1)
-					x2 = x2 - 2 * CELL_WIDTH / 5;
-				if (rY[i] == 0)
-					y2 = y2 + 2 * CELL_HEIGHT / 5;
-				else if (rY[i] == ROW + 1)
-					y2 = y2 - 2 * CELL_HEIGHT / 5;
-				//align path	
-
-				g.drawLine(x1, y1, x2, y2, FruitLink.mainPaint); // Vẽ đường thẳng nối 2 ô
-				x1 = x2;
-				y1 = y2;
-
-			}
-		}
-		if (countFrameDrawAddScrore-- >= 0) {
-
-			x1 = rX[rCount / 2] * CELL_WIDTH + CELL_WIDTH / 2 + BEGIN_X;
-			y1 = rY[rCount / 2] * CELL_HEIGHT + CELL_HEIGHT / 2 + BEGIN_Y;
-
-			Log.d("rcount : ", " " + rCount);
-			Log.d("x,y : ", " " + x1 + "," + y1);
-			//if(countFrameDrawAddScrore%2 !=0)
-			//PikachuActivity.fontbig_Yellow.drawString(g, " + " + mScoreAdd, x1, y1 - 20 - countFrameDrawAddScrore*2, BitmapFont.ALIGN_CENTER);
-			//else
-			FruitLink.fontbig_White.drawString(g, " + " + mScoreAdd, x1, y1 - (20 - countFrameDrawAddScrore * 2), BitmapFont.ALIGN_CENTER);
-		}
-         * */
+            waypoints1[i] = CardMatrix[rY[i]][rX[i]].transform.position;
+            waypoints2[i] = CardMatrix[rY[rCount  - i-1]][rX[rCount - i-1]].transform.position;
+         
+        }
+        waypoints1[rCount / 2] = posCenter1;
+        waypoints2[rCount / 2] = posCenter1;
+       // CardMatrix[CardY2][CardX2].willPaird = CardMatrix[CardY1][CardX1].gameObject;
+        iTween.MoveTo(CardMatrix[CardY1][CardX1].transform.gameObject, iTween.Hash("path", waypoints2, "time", rCount * 0.050, "EaseType", "linear", "oncomplete", "Movecompleted"));
+        iTween.MoveTo(CardMatrix[CardY2][CardX2].transform.gameObject, iTween.Hash("path", waypoints1, "time", rCount * 0.050, "EaseType", "linear", "oncomplete", "Movecompleted"));
+       if(CardMatrix[CardY1][CardX1].transform.position == GamePlay.instance.effectObject1.position ||
+           CardMatrix[CardY1][CardX1].transform.position == GamePlay.instance.effectObject2.position ||
+           CardMatrix[CardY2][CardX2].transform.position == GamePlay.instance.effectObject1.position ||
+           CardMatrix[CardY2][CardX2].transform.position == GamePlay.instance.effectObject2.position)
+       {
+           Card.stopHint();
+       }
+     
     }
 
     public void searchPair()
     {
+        Card.stopHint();
         arrayListPair.Clear();
         for (int i = 0; i <= ROW + 1; i++)
         {
@@ -450,13 +439,14 @@ public class MapCard : MonoBehaviour {
 
             GamePlay.instance.effectObject1 = CardMatrix[CardY1][CardX1].gameObject.transform;
             GamePlay.instance.effectObject2 = CardMatrix[CardY2][CardX2].gameObject.transform;
-            CardMatrix[CardY1][CardX1].gameObject.GetComponent<Card>().renderrer.GetComponent<Renderer>().material.shader = PlatformManager.instance.shaderHightLight;
-            CardMatrix[CardY2][CardX2].gameObject.GetComponent<Card>().renderrer.GetComponent<Renderer>().material.shader = PlatformManager.instance.shaderHightLight;
+            CardMatrix[CardY1][CardX1].gameObject.GetComponent<Card>().objectBox.GetComponent<Renderer>().material.shader = PlatformManager.instance.shaderHightLight;
+            CardMatrix[CardY2][CardX2].gameObject.GetComponent<Card>().objectBox.GetComponent<Renderer>().material.shader = PlatformManager.instance.shaderHightLight;
 		}
     }
 
     public void autoSortMap()
     {
+       
         ArrayList maptemp = new ArrayList();       
         int count = 0;
         for (int i = 0; i <= ROW + 1; i++)
@@ -471,9 +461,11 @@ public class MapCard : MonoBehaviour {
               
             }
         }
-        Card caardTemp;
+        //Card caardTemp;
         Vector3 pos1;
         Vector3 pos2;
+        GameObject tempObj;
+        int tempValue;
         for (int i = 0; i < count; i++)
         {
             int x1 = (int)(((Vector2)(maptemp[i])).x);
@@ -481,23 +473,36 @@ public class MapCard : MonoBehaviour {
             int tempindex = Random.Range(0, count);
             int x2 = (int)(((Vector2)(maptemp[tempindex])).x);
             int y2 = (int)(((Vector2)(maptemp[tempindex])).y);
-            pos1 = CardMatrix[x1][y1].transform.position;
-            pos2 = CardMatrix[x2][y2].transform.position;
-            caardTemp = CardMatrix[x1][y1];
-            CardMatrix[x1][y1] = CardMatrix[x2][y2];            
-            CardMatrix[x2][y2] = caardTemp;
 
-            CardMatrix[x1][y1].transform.position = pos1;
-			CardMatrix[x1][y1].fixPosition = pos1;
-            CardMatrix[x2][y2].transform.position = pos2;
-			CardMatrix[x2][y2].fixPosition = pos2;
-            CardMatrix[x1][y1].X = y1;
-            CardMatrix[x1][y1].Y = x1;
-            CardMatrix[x2][y2].X = y2;
-            CardMatrix[x2][y2].Y = x2;
+            pos1 = CardMatrix[x1][y1].renderrerObject.transform.position;
+            pos2 = CardMatrix[x2][y2].renderrerObject.transform.position;
+            //caardTemp = CardMatrix[x1][y1];
+           
+            tempObj = CardMatrix[x1][y1].renderrerObject;
+            tempValue = CardMatrix[x1][y1].Value;
+            CardMatrix[x1][y1].Value = CardMatrix[x2][y2].Value;
+            CardMatrix[x2][y2].Value = tempValue;
+
+            
+            CardMatrix[x1][y1].renderrerObject = CardMatrix[x2][y2].renderrerObject;
+            CardMatrix[x2][y2].renderrerObject = tempObj;
+            CardMatrix[x1][y1].renderrerObject.transform.parent = CardMatrix[x1][y1].gameObject.transform;
+            CardMatrix[x2][y2].renderrerObject.transform.parent = CardMatrix[x2][y2].gameObject.transform;
+
+            CardMatrix[x1][y1].renderrerObject.transform.position = pos1;
+            CardMatrix[x2][y2].renderrerObject.transform.position = pos2;
+           // CardMatrix[x2][y2].renderrerObject.transform.position = Vector3.zero;
+            //CardMatrix[x1][y1].transform.position = pos1;
+			//CardMatrix[x1][y1].fixPosition = pos1;
+            //CardMatrix[x2][y2].transform.position = pos2;
+			//CardMatrix[x2][y2].fixPosition = pos2;
+            //CardMatrix[x1][y1].X = y1;
+            //CardMatrix[x1][y1].Y = x1;
+            //CardMatrix[x2][y2].X = y2;
+            //CardMatrix[x2][y2].Y = x2;
 
         }
-
+        Card.stopHint();
     }
   
 	// Update is called once per frame

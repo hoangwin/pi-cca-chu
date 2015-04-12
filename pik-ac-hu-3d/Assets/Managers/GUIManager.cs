@@ -3,9 +3,10 @@ using UnityEngine.UI;
 public class GUIManager : MonoBehaviour {
 	
 	public static GUIManager instance;
-	
+    
 	public Text textCount;
-	public Text textBestCount;
+    public Text textTitleOver;
+    public Text textBestCount;
 	public Text textCountOver;
 	public Text textBestCountOver;
 	public GameObject mainMenu, ingameMenu, gameOver;
@@ -22,6 +23,8 @@ public class GUIManager : MonoBehaviour {
 	
 	public static bool firstShowAdsAtBegin = false;
 	static public float timeShowAds = 0;
+
+
 	void Start () {
 		state = STATE_MAINMENU;
 		instance = this;
@@ -88,7 +91,7 @@ public class GUIManager : MonoBehaviour {
 		//enabled = false;
 	}
 	
-	private void GameOver () {
+	private void GameOver() {
 		state = STATE_OVER;
 		mainMenu.SetActive (false);
 		gameOver.SetActive (true);
@@ -125,6 +128,7 @@ public class GUIManager : MonoBehaviour {
 		mainMenu.SetActive(true);
 		ingameMenu.SetActive (false);
 		gameOver.SetActive (false);
+        MapCard.instance.InitReset();
 		instance.textBestCount.text = ScoreControl.score[0].NUM.ToString();
 	}
 
