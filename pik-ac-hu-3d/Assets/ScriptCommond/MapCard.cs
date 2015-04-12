@@ -4,8 +4,8 @@ using System.Collections;
 public class MapCard : MonoBehaviour {
 
 	// Use this for initialization
-    public const int COL = 10;
-    public const int ROW = 6;
+    public const int COL = 16;
+    public const int ROW = 10;
     public static float CELL_WIDTH = 73;
     public static float CELL_HEIGHT = 80;
     public static int BEGIN_X = 100;
@@ -113,7 +113,7 @@ public class MapCard : MonoBehaviour {
                     tran.gameObject.SetActive(true);
                   
                     //  tran.Rotate(180, 0, 0);
-                    int _index = k / 4;
+                    int _index = k / 10;
                     // Debug.Log(_index);
                     Transform objChar = (Transform)(Instantiate(Character[_index], templateGround.transform.position, Quaternion.identity));
                     objChar.gameObject.SetActive(true);
