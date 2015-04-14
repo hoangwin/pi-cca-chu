@@ -33,9 +33,13 @@ public class GamePlay : MonoBehaviour
 
     public static GamePlay instance;
 
-    void Start()
+    void Awake()
     {
-        
+        // Make the game run as fast as possible in the web player
+        Application.targetFrameRate = 60;
+    }
+    void Start()
+    {        
         isHint = false;
         instance = this;
         GamePlay.isMove = false;

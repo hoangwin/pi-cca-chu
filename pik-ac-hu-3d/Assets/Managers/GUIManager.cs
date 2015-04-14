@@ -181,6 +181,7 @@ public class GUIManager : MonoBehaviour {
 
     public void ButtonHint()
     {
+        SoundEngine.play(SoundEngine.instance.click);
         GamePlay.countHint--;
         if(GamePlay.countHint<=0)
         {
@@ -192,6 +193,7 @@ public class GUIManager : MonoBehaviour {
     }
     public void ButtonSort()
     {
+        SoundEngine.play(SoundEngine.instance.click);
         GamePlay.countSort--;
         if (GamePlay.countSort <= 0)
         {
@@ -237,6 +239,7 @@ public class GUIManager : MonoBehaviour {
     }
     public void ButtonChangeDirection()
     {
+        SoundEngine.play(SoundEngine.instance.click);
         CameraFllow.instance.setCameraDirection(!CameraFllow.instance.is3D);
     }
 	public void ButtonRatePress()
