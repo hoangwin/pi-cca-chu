@@ -19,6 +19,17 @@ public class GUIManager : MonoBehaviour {
 	public Sprite imageOn;
 	public Sprite imageOff;
 	public Image imageMusic;
+    //
+
+    public Sprite imageSFXOn;
+    public Sprite imageSFXOff;
+    public Image imageSFX;
+
+    public Text textCountHint;
+    public Text textCountSort;
+    public GameObject objectButtonHint;
+    public GameObject objectButtonSort;
+    
 	public static float timeInSubState;
 	
 	public static bool firstShowAdsAtBegin = false;
@@ -113,6 +124,34 @@ public class GUIManager : MonoBehaviour {
 		SoundEngine.play(SoundEngine.instance.click);
 		GameEventManager.TriggerGameStart();
 	}
+    public void EasyButtonPress()
+    {
+        MapCard.mode = 0;
+        
+        SoundEngine.play(SoundEngine.instance.click);
+        SoundEngine.instance.music.Stop();
+        SoundEngine.instance.music.clip = SoundEngine.instance.music2;
+        SoundEngine.instance.music.Play();
+        GameEventManager.TriggerGameStart();
+    }
+    public void NormalButtonPress()
+    {
+        MapCard.mode = 1;
+        SoundEngine.play(SoundEngine.instance.click);
+        SoundEngine.instance.music.Stop();
+        SoundEngine.instance.music.clip = SoundEngine.instance.music3;
+        SoundEngine.instance.music.Play();
+        GameEventManager.TriggerGameStart();
+    }
+    public void HarButtonPress()
+    {
+        MapCard.mode = 2;
+        SoundEngine.play(SoundEngine.instance.click);
+        SoundEngine.instance.music.Stop();
+        SoundEngine.instance.music.clip = SoundEngine.instance.music4;
+        SoundEngine.instance.music.Play();
+        GameEventManager.TriggerGameStart();
+    }
 	public void replayButtonPress()
 	{SoundEngine.play(SoundEngine.instance.click);
 		GameEventManager.TriggerGameReStart();
@@ -122,28 +161,50 @@ public class GUIManager : MonoBehaviour {
 		state = STATE_MAINMENU;
 		GamePlay.isMove = false;
 		SoundEngine.play(SoundEngine.instance.click);
+        SoundEngine.instance.music.Stop();
+        SoundEngine.instance.music.clip = SoundEngine.instance.music1;
+        SoundEngine.instance.music.Play();
 		//state = STATE_MAINMENU;
 		Debug.Log ("aaaaaa");
 		GameEventManager.TriggerGameInit();
 		mainMenu.SetActive(true);
 		ingameMenu.SetActive (false);
 		gameOver.SetActive (false);
-        MapCard.instance.InitReset();
+
+        GamePlay.instance.objectMainMenu.gameObject.SetActive(true);
+        GamePlay.instance.objectInGame.gameObject.SetActive(false);
+
+      //  MapCard.instance.InitReset();
 		instance.textBestCount.text = ScoreControl.score[0].NUM.ToString();
+        MapCard.instance.cleanAllBoard();
 	}
 
     public void ButtonHint()
     {
+        GamePlay.countHint--;
+        if(GamePlay.countHint<=0)
+        {
+            objectButtonHint.SetActive(false);
+            
+        }
+        textCountHint.text = GamePlay.countHint.ToString();
         MapCard.instance.searchPair();
     }
     public void ButtonSort()
     {
+        GamePlay.countSort--;
+        if (GamePlay.countSort <= 0)
+        {
+            objectButtonSort.SetActive(false);
+
+        }
+        textCountSort.text = GamePlay.countSort.ToString();
         MapCard.instance.autoSortMap();
     }
 	public void ButtonSoundPress()
 	{
-		SoundEngine.isSound = !SoundEngine.isSound;
-		if (SoundEngine.isSound)
+		SoundEngine.isSoundMusic = !SoundEngine.isSoundMusic;
+		if (SoundEngine.isSoundMusic)
 		{
 			SoundEngine.instance.audioSource.enabled = true;
 			SoundEngine.instance.music.enabled = true;
@@ -157,7 +218,23 @@ public class GUIManager : MonoBehaviour {
 		}
 		SoundEngine.play(SoundEngine.instance.click);
 	}
-
+    public void ButtonSFXPress()
+    {
+        SoundEngine.isSoundSFX = !SoundEngine.isSoundSFX;
+        if (SoundEngine.isSoundSFX)
+        {
+            SoundEngine.instance.audioSource.enabled = true;
+          //  SoundEngine.instance.music.enabled = true;
+            imageSFX.sprite = imageSFXOn;
+        }
+        else
+        {
+            SoundEngine.instance.audioSource.enabled = false;
+           // SoundEngine.instance.music.enabled = false;
+            imageSFX.sprite = imageSFXOff;
+        }
+        SoundEngine.play(SoundEngine.instance.click);
+    }
     public void ButtonChangeDirection()
     {
         CameraFllow.instance.setCameraDirection(!CameraFllow.instance.is3D);
@@ -166,7 +243,7 @@ public class GUIManager : MonoBehaviour {
 	{SoundEngine.play(SoundEngine.instance.click);
 		//  SoundEngine.getInstance().PlayOneShot(SoundEngine.getInstance()._soundclick);
 		#if UNITY_ANDROID
-        Application.OpenURL("market://details?id=com.impossible.twocarsocars");
+            Application.OpenURL("market://details?id=com.pika.chu.Onet");
 		#elif UNITY_WP8
 		WP8Statics.RateApp("");
 		#elif UNITY_IOS

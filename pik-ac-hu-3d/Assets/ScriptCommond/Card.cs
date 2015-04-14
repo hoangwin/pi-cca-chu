@@ -23,6 +23,7 @@ public class Card : MonoBehaviour {
     void Movecompleted()
     {
         gameObject.SetActive(false);
+        SoundEngine.play(SoundEngine.instance.paird);
        // willPaird.SetActive(false);
         
         Object obj = (Instantiate(GamePlay.instance.effect, GamePlay.instance.effect.transform.position, Quaternion.identity));
@@ -49,6 +50,7 @@ public class Card : MonoBehaviour {
            GUIManager.instance.textTitleOver.text ="Completed";
            GUIManager.instance.textCountOver.text ="10";
            GUIManager.instance.textBestCountOver.text="10";
+           SoundEngine.play(SoundEngine.instance.win);
            
         }
 

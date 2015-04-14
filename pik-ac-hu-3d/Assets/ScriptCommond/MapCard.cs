@@ -4,12 +4,11 @@ using System.Collections;
 public class MapCard : MonoBehaviour {
 
 	// Use this for initialization
-    public const int COL = 16;
-    public const int ROW = 10;
+    public static int COL = 16;
+    public static int ROW = 10;
     public static float CELL_WIDTH = 73;
     public static float CELL_HEIGHT = 80;
-    public static int BEGIN_X = 100;
-    public static int BEGIN_Y = -20;
+
     public const int CardNo = 15;
     public Transform templateGround;
     public Transform templateGround1;
@@ -34,6 +33,10 @@ public class MapCard : MonoBehaviour {
     // Ví dụ: Up -> Left -> Left -> ...
     public static int countCardLive;
     public static MapCard instance;
+    static bool isFistInit = false;
+    public static int mode = 0;//0 = easy;1 = normal; 2 = hard
+    public static float scaleBox = 1;
+    
     public enum Direction
     {
         Left, Right, Up, Down, None
@@ -41,28 +44,94 @@ public class MapCard : MonoBehaviour {
     void Start()
     {
         GameEventManager.GameReStart += InitReset;
-
+        GameEventManager.GameStartEvent += InitReset;
         instance = this;
-        CELL_WIDTH = ((Collider)(templateGround.GetComponent<Collider>())).bounds.size.x + 0.1f;
-        CELL_HEIGHT = ((Collider)(templateGround.GetComponent<Collider>())).bounds.size.z + 0.1f;
-        templateGround.gameObject.SetActive(false);
+        InitCommondBegin();
+    }
+    public void InitCommondBegin()
+    {
+        if (!isFistInit)
+        {
+            isFistInit = true;
+            CELL_WIDTH = ((Collider)(templateGround.GetComponent<Collider>())).bounds.size.x + 0.1f;
+            CELL_HEIGHT = ((Collider)(templateGround.GetComponent<Collider>())).bounds.size.z + 0.1f;
+            templateGround.gameObject.SetActive(false);
+        }
+    }
+    public void cleanAllBoard()
+    {
+        if (CardMatrix != null)
+        {
+            for (int i = 0; i < ROW +2; i++)
+            {
+
+                for (int j = 0; j < COL + 2; j++)
+                {
+
+                    // Debug.Log("aaaaaaaa");
+                    //CardMatrix[i][j].gameObject.SetActive(false);
+                    GameObject.Destroy(CardMatrix[i][j].gameObject);
+
+                }
+                CardMatrix[i] = null;
+            }
+            CardMatrix = null;
+        }
+    }
+    
+    public void InitReset()
+    {
+        GamePlay.instance.objectMainMenu.gameObject.SetActive(false);
+        GamePlay.instance.objectInGame.gameObject.SetActive(true);
+        Debug.Log("Init Reset");
+        if (mode == 0)
+        {
+            COL = 10;
+            ROW = 6;
+            scaleBox = 1.625f;
+            GamePlay.instance.sliderbar.maxValue = 130;
+        }
+        else if (mode == 1)
+        {
+            COL = 12;
+            ROW = 8;
+            scaleBox = 1.25f;
+            GamePlay.instance.sliderbar.maxValue = 200;
+        }
+        else
+        {
+            GamePlay.instance.sliderbar.maxValue = 270;
+            COL = 16;
+            ROW = 10;
+            scaleBox = 1;
+        }
         int MAX = (ROW + 2) * (COL + 2);
         rX = new int[MAX];
         rY = new int[MAX];
         tX = new int[MAX];
         tY = new int[MAX];
         d = new Direction[MAX];
-        InitReset();       
-    }
-
-    public void InitReset()
-    {
+        //InitReset();       
         int k = 0;
+        float _CELL_WIDTH = CELL_WIDTH*scaleBox;
+        float _CELL_HEIGHT = CELL_HEIGHT * scaleBox;
+        bool isScale = false;
         if (CardMatrix == null)
+        {
+            isScale = true;
             CardMatrix = new Card[ROW + 2][]; // tạo ma trận các thẻ hình
+        }
+        Object obj;
+        Transform tran = null;
+
+        //align x
+        float x = COL * _CELL_HEIGHT - _CELL_HEIGHT;
+        x = x / 2;
+        templateGround.transform.position = new Vector3(x,templateGround.transform.position.y, templateGround.transform.position.z);
+        //end align x
         for (int i = 0; i < ROW + 2; i++)
         {
-            if (CardMatrix[i] ==null)
+            if (CardMatrix[i] == null)
                 CardMatrix[i] = new Card[COL + 2];
 
             for (int j = 0; j < COL + 2; j++)
@@ -74,24 +143,24 @@ public class MapCard : MonoBehaviour {
                 
                     if (CardMatrix[i][j] == null)
                     {
-                        Object obj;
+                       
                         obj = (Instantiate(templateGround, templateGround.transform.position, Quaternion.identity));
-                        Transform tran = (Transform)obj;
+                        tran = (Transform)obj;
                         tran.gameObject.SetActive(false);
-                        tran.Translate((-j + 1) * CELL_HEIGHT, 0, (i - 1) * CELL_WIDTH);
+                        tran.Translate((-j + 1) * _CELL_HEIGHT, 0, (i - 1) * _CELL_WIDTH);
                         CardMatrix[i][j] = tran.gameObject.GetComponent<Card>();
                         CardMatrix[i][j].fixPosition = tran.position;
 
                         CardMatrix[i][j].Value = -1;
                         CardMatrix[i][j].X = j;
                         CardMatrix[i][j].Y = i;
+                       
                     }
 
                 }
                 else
                 {
-                    Object obj;
-                     Transform tran;
+                     
                     if (CardMatrix[i][j] == null)
                     {
 
@@ -100,7 +169,8 @@ public class MapCard : MonoBehaviour {
                         else
                             obj = (Instantiate(templateGround1, templateGround.transform.position, Quaternion.identity));
                         tran = (Transform)obj;
-                        tran.Translate((-j + 1) * CELL_HEIGHT, 0, (i - 1) * CELL_WIDTH);
+                        tran.Translate((-j + 1) * _CELL_HEIGHT, 0, (i - 1) * _CELL_WIDTH);
+                        
                     }
                     else
                     {
@@ -111,15 +181,26 @@ public class MapCard : MonoBehaviour {
                     }
                    
                     tran.gameObject.SetActive(true);
-                  
+                    if (isScale)
+                    {
+                        //if (tran != null)
+                            tran.localScale = scaleBox * tran.localScale;
+                    }
                     //  tran.Rotate(180, 0, 0);
-                    int _index = k / 10;
+                    int value = ROW - 2;// 1 + ROW * COL / 16;
+                  //  Debug.Log(value);
+
+
+                    int _index = k / value;
                     // Debug.Log(_index);
                     Transform objChar = (Transform)(Instantiate(Character[_index], templateGround.transform.position, Quaternion.identity));
                     objChar.gameObject.SetActive(true);
-                    objChar.Translate((-j + 1) * CELL_HEIGHT, 0, (i - 1) * CELL_WIDTH);
-                    objChar.Rotate(-70, 0, 0);
+                    objChar.Translate((-j + 1) * _CELL_HEIGHT, 0, (i - 1) * _CELL_WIDTH);
+                    objChar.Rotate(-90, 0, 0);
+                    //tran.parent = objChar;
                     objChar.parent = tran;
+
+                    objChar.localScale = scaleBox * objChar.localScale;
 
                     CardMatrix[i][j] = tran.gameObject.GetComponent<Card>();
                     CardMatrix[i][j].renderrerObject = objChar.gameObject;
@@ -129,13 +210,20 @@ public class MapCard : MonoBehaviour {
                     CardMatrix[i][j].Y = i;
                     k++;
                 }
+            
             }
         }
         if (GamePlay.instance.tranformObjSelect != null)
             GamePlay.instance.tranformObjSelect.gameObject.GetComponent<Card>().objectBox.GetComponent<Renderer>().material.shader = PlatformManager.instance.shaderNormal;
         autoSortMap();
         countCardLive = COL * ROW;
-        GamePlay.instance.timeBegin = 90;
+        GamePlay.instance.timeBegin = GamePlay.instance.sliderbar.maxValue;
+        GamePlay.countHint = 3;
+        GamePlay.countSort = 1;
+        GUIManager.instance.objectButtonHint.SetActive(true);
+        GUIManager.instance.objectButtonSort.SetActive(true);
+        GUIManager.instance.textCountHint.text = GamePlay.countHint.ToString();
+        GUIManager.instance.textCountSort.text = GamePlay.countSort.ToString();
     }
     private int CountTurn(Direction[] d, int tCount)
     {
@@ -240,7 +328,7 @@ public class MapCard : MonoBehaviour {
                     if (rCount != 10000) // tìm thấy đường đi rẽ
                     // íthơn 2 lần
                     {
-                        Debug.Log("aaaaaaaaa");
+                       // Debug.Log("aaaaaaaaa");
                         temp = Random.Range(0, 3) + 1;
                         //	effect1.sprite.setAnim(effect1, temp, false, false);
                         //	effect2.sprite.setAnim(effect2, temp, false, false);
@@ -268,13 +356,12 @@ public class MapCard : MonoBehaviour {
         {
             if (!CardSelected) // Nếu thẻ hình thứ nhất chưa chọn
             {
+                SoundEngine.play(SoundEngine.instance.click);
                 //	SoundManager.playSound(SoundManager.SOUND_CLICK_CARD, 1);
                 CardSelected = true; // Đánh dấu thẻ hình thứ nhất đã chọn
                 CardX1 = x; // Lưu lại vị trí thẻ hình thứ nhất
                 CardY1 = y;
-                //	StateGameplay.spriteTileBoard.setAnim(0, CardX1 * CELL_WIDTH + BEGIN_X, CardY1 * CELL_HEIGHT + BEGIN_Y, true, false);
-                //here
-                // DrawGame();//here
+                
             }
             else // nếu thẻ hình thứ nhất đã chọn
                 if (x != CardX1 || y != CardY1)
@@ -283,6 +370,7 @@ public class MapCard : MonoBehaviour {
                     // nếu thẻ hình thứ 2 giống thẻ hình thứ nhất
                     if (CardMatrix[y][x].Value == CardMatrix[CardY1][CardX1].Value)
                     {
+                        SoundEngine.play(SoundEngine.instance.click);
                         Debug.Log("Okie 1");
                         int temp = CardMatrix[y][x].Value;
                         // để dễ dàng trong việc tìm đường, ta đánh dấu 2 ô này là
@@ -321,39 +409,26 @@ public class MapCard : MonoBehaviour {
                           //  mScoreAdd = 10;
 
 
-                            // Nếu không còn thẻ hình nào, chúc mừng và khởi tạo
-
-                         //   if (RemainingCount == 0)
-                            {
-
-                                //StateWinLose.isWin = true;
-                                //FruitLink.changeState(IConstant.STATE_WINLOSE);
-                                //SoundManager.pausesoundLoop(1);
-                                //SoundManager.playSound(SoundManager.SOUND_WIN, 1);
-
-                            }
-                           // else
-                            {
-                                //SoundManager.playSound(SoundManager.SOUND_COMBOL_1, 1);
-                            }
 
                         }
                         else // nếu không tìm thấy đường đi
                         {
+                            SoundEngine.play(SoundEngine.instance.failt);
                             //SoundManager.playSound(SoundManager.SOUND_CLICK_CARD, 1);
                             CardSelected = true; // hủy chọn thẻ hình thứ nhất
                             CardX1 = x; // Lưu lại vị trí thẻ hình thứ nhất
                             CardY1 = y;
-                            //StateGameplay.spriteTileBoard.setAnim(0, CardX1 * CELL_WIDTH + BEGIN_X, CardY1 * CELL_HEIGHT + BEGIN_Y, true, false);
+                            
                         }
                     }
                     else // nếu thẻ hình thứ 2 không giống thẻ hình thứ nhất
                     {
+                        SoundEngine.play(SoundEngine.instance.click);
                         //SoundManager.playSound(SoundManager.SOUND_CLICK_CARD, 1);
                         CardSelected = true; // hủy chọn thẻ hình thứ nhất
                         CardX1 = x; // Lưu lại vị trí thẻ hình thứ nhất
                         CardY1 = y;
-                        //StateGameplay.spriteTileBoard.setAnim(0, CardX1 * CELL_WIDTH + BEGIN_X, CardY1 * CELL_HEIGHT + BEGIN_Y, true, false);
+                        
                     }
                 }
         }

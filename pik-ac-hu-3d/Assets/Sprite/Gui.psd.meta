@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: ac8a4c3ef2966d34c8e700950d888283
-timeCreated: 1426478265
+timeCreated: 1428973909
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -12,6 +12,9 @@ TextureImporter:
     21300010: Gui_5
     21300012: Gui_6
     21300014: Gui_7
+    21300016: Gui_8
+    21300018: Gui_9
+    21300020: Gui_10
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -64,70 +67,110 @@ TextureImporter:
     - name: Gui_0
       rect:
         serializedVersion: 2
-        x: 34
-        y: 815
-        width: 169
-        height: 169
+        x: 46
+        y: 783
+        width: 149
+        height: 204
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Gui_1
       rect:
         serializedVersion: 2
-        x: 237
-        y: 818
-        width: 169
-        height: 169
+        x: 250
+        y: 784
+        width: 149
+        height: 203
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Gui_2
       rect:
         serializedVersion: 2
-        x: 434
-        y: 818
-        width: 169
-        height: 169
+        x: 444
+        y: 781
+        width: 149
+        height: 204
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Gui_3
       rect:
         serializedVersion: 2
-        x: 636
-        y: 816
-        width: 169
-        height: 169
+        x: 657
+        y: 781
+        width: 149
+        height: 204
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Gui_4
       rect:
         serializedVersion: 2
-        x: 100
-        y: 339
-        width: 479
-        height: 165
+        x: 140
+        y: 307
+        width: 386
+        height: 196
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Gui_5
       rect:
         serializedVersion: 2
-        x: 62
-        y: 614
-        width: 169
-        height: 169
+        x: 46
+        y: 536
+        width: 149
+        height: 204
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Gui_6
       rect:
         serializedVersion: 2
-        x: 414
-        y: 616
-        width: 169
-        height: 169
+        x: 444
+        y: 545
+        width: 149
+        height: 204
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Gui_7
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 521
+        width: 149
+        height: 204
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Gui_8
+      rect:
+        serializedVersion: 2
+        x: 848
+        y: 521
+        width: 149
+        height: 204
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Gui_9
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 280
+        width: 149
+        height: 204
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Gui_10
+      rect:
+        serializedVersion: 2
+        x: 848
+        y: 280
+        width: 149
+        height: 204
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

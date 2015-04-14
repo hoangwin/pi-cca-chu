@@ -11,6 +11,9 @@ public class GamePlay : MonoBehaviour
     public Transform effectHint2;
     public Transform effectObject1;
     public Transform effectObject2;
+
+    public Transform objectMainMenu;
+    public Transform objectInGame;
     public bool isHint;
     // Use this for initialization
 
@@ -18,7 +21,8 @@ public class GamePlay : MonoBehaviour
     public float timeBegin = 60;
     public int mCountTimber = 0;
 
-    
+    public static int countHint;
+    public static int countSort;
     // Use this for initialization
     
 
