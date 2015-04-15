@@ -9,6 +9,7 @@ public class GUIManager : MonoBehaviour {
     public Text textBestCount;
 	public Text textCountOver;
 	public Text textBestCountOver;
+    public Text textBestCountTitleOver;
 	public GameObject mainMenu, ingameMenu, gameOver;
 	public static int state;
 	public const int STATE_INIT = 0;
@@ -62,7 +63,7 @@ public class GUIManager : MonoBehaviour {
 				firstShowAdsAtBegin = true;
 			timeShowAds = 0;
 			#if UNITY_ANDROID
-            using (AndroidJavaClass jc = new AndroidJavaClass("com.impossible.twocarsocars.UnityPlayerNativeActivity"))
+            using (AndroidJavaClass jc = new AndroidJavaClass("com.pika.chu.Onet.UnityPlayerNativeActivity"))
 			{
 				jc.CallStatic<int>("ShowAds");
 			}
@@ -208,13 +209,13 @@ public class GUIManager : MonoBehaviour {
 		SoundEngine.isSoundMusic = !SoundEngine.isSoundMusic;
 		if (SoundEngine.isSoundMusic)
 		{
-			SoundEngine.instance.audioSource.enabled = true;
+			
 			SoundEngine.instance.music.enabled = true;
 			imageMusic.sprite = imageOn;
 		}
 		else
 		{
-			SoundEngine.instance.audioSource.enabled =false;
+			
 			SoundEngine.instance.music.enabled = false;
 			imageMusic.sprite = imageOff;
 		}
@@ -225,12 +226,14 @@ public class GUIManager : MonoBehaviour {
         SoundEngine.isSoundSFX = !SoundEngine.isSoundSFX;
         if (SoundEngine.isSoundSFX)
         {
+            
             SoundEngine.instance.audioSource.enabled = true;
           //  SoundEngine.instance.music.enabled = true;
             imageSFX.sprite = imageSFXOn;
         }
         else
         {
+            
             SoundEngine.instance.audioSource.enabled = false;
            // SoundEngine.instance.music.enabled = false;
             imageSFX.sprite = imageSFXOff;

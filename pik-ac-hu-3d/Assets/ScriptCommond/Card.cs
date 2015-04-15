@@ -48,9 +48,53 @@ public class Card : MonoBehaviour {
 
 
            GUIManager.instance.textTitleOver.text ="Completed";
-           GUIManager.instance.textCountOver.text ="10";
-           GUIManager.instance.textBestCountOver.text="10";
            SoundEngine.play(SoundEngine.instance.win);
+
+            //
+           int timePlay  =(int)( GamePlay.instance.sliderbar.maxValue - GamePlay.instance.timeBegin);
+          // Debug.Log("00:" + GamePlay.instance.sliderbar.maxValue);
+          // Debug.Log("000:" + GamePlay.instance.timeBegin);
+            if(timePlay <=0)
+                   timePlay = 0;
+            //Debug.Log("11:" + timePlay);
+           GUIManager.instance.textCountOver.text = timePlay.ToString();
+           if (MapCard.mode == 0)//easy
+           {
+
+               if (GamePlay.mScoreEasy.NUM > timePlay || GamePlay.mScoreEasy.NUM == 0)
+               {                   
+                   GamePlay.mScoreEasy.NUM = timePlay;
+                   GamePlay.mScoreEasy.Save();
+               }
+               Debug.Log("222:" + GamePlay.mScoreEasy.NUM);
+               GUIManager.instance.textBestCountTitleOver.text = "BEST TIME(EASY MODE)";
+               GUIManager.instance.textBestCountOver.text = GamePlay.mScoreEasy.NUM.ToString();
+             
+           }
+           if (MapCard.mode == 1)//easy
+           {
+               if (GamePlay.mScoreNormal.NUM > timePlay || GamePlay.mScoreEasy.NUM == 0)
+               {
+                   GamePlay.mScoreNormal.NUM = timePlay;
+                   GamePlay.mScoreNormal.Save();
+               }
+               GUIManager.instance.textBestCountTitleOver.text = "BEST TIME(NORMAL MODE)";
+               GUIManager.instance.textBestCountOver.text = GamePlay.mScoreNormal.NUM.ToString();
+               GUIManager.instance.textCountOver.text = "NA";
+           }
+           if (MapCard.mode == 2)//easy
+           {
+               if (GamePlay.mScoreHard.NUM > timePlay || GamePlay.mScoreEasy.NUM == 0)
+               {
+                   GamePlay.mScoreHard.NUM = timePlay;
+                   GamePlay.mScoreHard.Save();
+               }
+               GUIManager.instance.textBestCountTitleOver.text = "BEST TIME(HARD MODE)";
+               GUIManager.instance.textBestCountOver.text = GamePlay.mScoreHard.NUM.ToString();
+               GUIManager.instance.textCountOver.text = "NA";
+           }
+           GUIManager.ShowADS();
+
            
         }
 

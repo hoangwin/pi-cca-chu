@@ -89,14 +89,14 @@ public class MapCard : MonoBehaviour {
             COL = 10;
             ROW = 6;
             scaleBox = 1.625f;
-            GamePlay.instance.sliderbar.maxValue = 130;
+            GamePlay.instance.sliderbar.maxValue = 100;
         }
         else if (mode == 1)
         {
             COL = 12;
             ROW = 8;
             scaleBox = 1.25f;
-            GamePlay.instance.sliderbar.maxValue = 200;
+            GamePlay.instance.sliderbar.maxValue = 180;
         }
         else
         {
@@ -371,7 +371,7 @@ public class MapCard : MonoBehaviour {
                     if (CardMatrix[y][x].Value == CardMatrix[CardY1][CardX1].Value)
                     {
                         SoundEngine.play(SoundEngine.instance.click);
-                        Debug.Log("Okie 1");
+                      //  Debug.Log("Okie 1");
                         int temp = CardMatrix[y][x].Value;
                         // để dễ dàng trong việc tìm đường, ta đánh dấu 2 ô này là
                         // trống

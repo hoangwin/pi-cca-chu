@@ -24,11 +24,10 @@ public class GamePlay : MonoBehaviour
     public static int countHint;
     public static int countSort;
     // Use this for initialization
-    
+    public static SuperInt mScoreEasy = new SuperInt(0, "SCOREEasy");
+    public static SuperInt mScoreNormal = new SuperInt(0, "SCORENormal");
+    public static SuperInt mScoreHard = new SuperInt(0, "SCOREHard");
 
-    
-    
-    
     bool isTouch;
 
     public static GamePlay instance;
@@ -64,8 +63,29 @@ public class GamePlay : MonoBehaviour
                     GUIManager.instance.ingameMenu.SetActive(false);
                     GUIManager.instance.gameOver.SetActive(true);
                     GUIManager.instance.textTitleOver.text = "Game Over";
-                    GUIManager.instance.textCountOver.text = "NA";
-                    GUIManager.instance.textBestCountOver.text = "10";
+                    
+                    if (MapCard.mode == 0)//easy
+                    {//timeBegin
+                        GUIManager.instance.textBestCountTitleOver.text = "BEST TIME(EASY MODE)";
+                        GUIManager.instance.textBestCountOver.text = mScoreEasy.NUM.ToString();
+                        GUIManager.instance.textCountOver.text = "NA";
+                    }
+                    if (MapCard.mode == 1)//easy
+                    {
+                        GUIManager.instance.textBestCountTitleOver.text = "BEST TIME(NORMAL MODE)";
+                        GUIManager.instance.textBestCountOver.text = mScoreNormal.NUM.ToString();
+                        GUIManager.instance.textCountOver.text = "NA";
+                    }
+                    if (MapCard.mode == 2)//easy
+                    {
+                        GUIManager.instance.textBestCountTitleOver.text = "BEST TIME(HARD MODE)";
+                        GUIManager.instance.textBestCountOver.text = mScoreHard.NUM.ToString();
+                        GUIManager.instance.textCountOver.text = "NA";
+                    }
+
+                    
+                    SoundEngine.play(SoundEngine.instance.lose);
+                    GUIManager.ShowADS();
                 }
 				
 
@@ -93,7 +113,7 @@ public class GamePlay : MonoBehaviour
 
                     if (tranformObjSelect != null)
                         tranformObjSelect.gameObject.GetComponent<Card>().objectBox.GetComponent<Renderer>().material.shader = PlatformManager.instance.shaderNormal;
-                    Debug.Log("x : " + hit.transform.gameObject.GetComponent<Card>().X + ", y : " + hit.transform.gameObject.GetComponent<Card>().Y + ", value : " + hit.transform.gameObject.GetComponent<Card>().Value);
+                    //Debug.Log("x : " + hit.transform.gameObject.GetComponent<Card>().X + ", y : " + hit.transform.gameObject.GetComponent<Card>().Y + ", value : " + hit.transform.gameObject.GetComponent<Card>().Value);
                     MapCard.instance.CardClick(hit.transform.gameObject.GetComponent<Card>().X, hit.transform.gameObject.GetComponent<Card>().Y);
 
                     hit.transform.gameObject.GetComponent<Card>().objectBox.GetComponent<Renderer>().material.shader = PlatformManager.instance.shaderHightLight;
