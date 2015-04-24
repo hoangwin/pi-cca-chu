@@ -1,0 +1,14 @@
+Onet 3D is a classic Onet - Connect-2 puzzle / Picachu PC game style
+How to play Onet  3D?
+- Remove 2 object with the same kind which can be connected within 3 lines.
+Features:
+- Classic game play
+- Nice graphic.
+- Great Sound
+- play game in 3d Screen.
+- 20 cute characters.
+Game have 3 mode:
+- Easy mode: 6x10 tiles
+- Normal mode: 8x12 tiles
+- Hard mode: 10x16 tiles
+have fun of playing Onet 3D!
