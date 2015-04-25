@@ -112,11 +112,11 @@ public class GamePlay : MonoBehaviour
                 {
 
                     if (tranformObjSelect != null)
-                        tranformObjSelect.gameObject.GetComponent<Card>().objectBox.GetComponent<Renderer>().material.shader = PlatformManager.instance.shaderNormal;
+                        tranformObjSelect.gameObject.GetComponent<Card>().objectBox.GetComponent<SpriteRenderer>().color = Color.white;
                     //Debug.Log("x : " + hit.transform.gameObject.GetComponent<Card>().X + ", y : " + hit.transform.gameObject.GetComponent<Card>().Y + ", value : " + hit.transform.gameObject.GetComponent<Card>().Value);
                     MapCard.instance.CardClick(hit.transform.gameObject.GetComponent<Card>().X, hit.transform.gameObject.GetComponent<Card>().Y);
 
-                    hit.transform.gameObject.GetComponent<Card>().objectBox.GetComponent<Renderer>().material.shader = PlatformManager.instance.shaderHightLight;
+                    hit.transform.gameObject.GetComponent<Card>().objectBox.GetComponent<SpriteRenderer>().color = Color.green;
                     tranformObjSelect = hit.transform;
                     //    hit.GetComponent<TouchObjectScript>().ApplyForce();
                 }

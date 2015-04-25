@@ -147,7 +147,7 @@ public class MapCard : MonoBehaviour {
                         obj = (Instantiate(templateGround, templateGround.transform.position, Quaternion.identity));
                         tran = (Transform)obj;
                         tran.gameObject.SetActive(false);
-                        tran.Translate((-j + 1) * _CELL_HEIGHT, 0, (i - 1) * _CELL_WIDTH);
+                        tran.Translate((-j + 1) * _CELL_HEIGHT,(i - 1) * _CELL_WIDTH, 0);
                         CardMatrix[i][j] = tran.gameObject.GetComponent<Card>();
                         CardMatrix[i][j].fixPosition = tran.position;
 
@@ -169,7 +169,7 @@ public class MapCard : MonoBehaviour {
                         else
                             obj = (Instantiate(templateGround1, templateGround.transform.position, Quaternion.identity));
                         tran = (Transform)obj;
-                        tran.Translate((-j + 1) * _CELL_HEIGHT, 0, (i - 1) * _CELL_WIDTH);
+                        tran.Translate((-j + 1) * _CELL_HEIGHT,(i - 1) * _CELL_WIDTH, 0);
                         
                     }
                     else
@@ -195,8 +195,8 @@ public class MapCard : MonoBehaviour {
                     // Debug.Log(_index);
                     Transform objChar = (Transform)(Instantiate(Character[_index], templateGround.transform.position, Quaternion.identity));
                     objChar.gameObject.SetActive(true);
-                    objChar.Translate((-j + 1) * _CELL_HEIGHT, 0, (i - 1) * _CELL_WIDTH);
-                    objChar.Rotate(-90, 0, 0);
+                    objChar.Translate( (-j + 1) * _CELL_HEIGHT,(i - 1) * _CELL_WIDTH, 0);
+                  //  objChar.Rotate(-90, 0, 0);
                     //tran.parent = objChar;
                     objChar.parent = tran;
 
@@ -509,13 +509,13 @@ public class MapCard : MonoBehaviour {
             GamePlay.instance.effectHint2.gameObject.SetActive(true);
             GamePlay.instance.effectHint1.position = CardMatrix[CardY1][CardX1].transform.position;
             GamePlay.instance.effectHint2.position = CardMatrix[CardY2][CardX2].transform.position;
-            GamePlay.instance.effectHint1.Translate(0, 2, 0,Space.World);
-            GamePlay.instance.effectHint2.Translate(0, 2, 0, Space.World);
+            GamePlay.instance.effectHint1.Translate(0, 0, 0,Space.World);
+            GamePlay.instance.effectHint2.Translate(0, 0, 0, Space.World);
 
             GamePlay.instance.effectObject1 = CardMatrix[CardY1][CardX1].gameObject.transform;
             GamePlay.instance.effectObject2 = CardMatrix[CardY2][CardX2].gameObject.transform;
-            CardMatrix[CardY1][CardX1].gameObject.GetComponent<Card>().objectBox.GetComponent<Renderer>().material.shader = PlatformManager.instance.shaderHightLight;
-            CardMatrix[CardY2][CardX2].gameObject.GetComponent<Card>().objectBox.GetComponent<Renderer>().material.shader = PlatformManager.instance.shaderHightLight;
+            CardMatrix[CardY1][CardX1].gameObject.GetComponent<Card>().objectBox.GetComponent<SpriteRenderer>().color =Color.red;
+            CardMatrix[CardY2][CardX2].gameObject.GetComponent<Card>().objectBox.GetComponent<SpriteRenderer>().color = Color.red;
 		}
     }
 

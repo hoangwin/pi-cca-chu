@@ -7,6 +7,7 @@ public class PlatformManager : MonoBehaviour
 
    
     public static PlatformManager instance;
+    
     public Shader shaderHightLight;
     public Shader shaderNormal;
     public Shader shaderObjectHightLight;
