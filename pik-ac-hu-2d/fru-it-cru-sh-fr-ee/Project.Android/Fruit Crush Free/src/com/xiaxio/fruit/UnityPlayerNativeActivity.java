@@ -27,21 +27,27 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+
 import com.chartboost.sdk.*;
 import com.chartboost.sdk.Libraries.CBLogging.Level;
 import com.chartboost.sdk.Model.CBError.CBClickError;
 import com.chartboost.sdk.Model.CBError.CBImpressionError;
 public class UnityPlayerNativeActivity extends NativeActivity
 {
-	protected UnityPlayer mUnityPlayer; // don't change the name of this variable; referenced from native code
-
+	protected UnityPlayer mUnityPlayer;		// don't change the name of this variable; referenced from native code
+	public static UnityPlayerNativeActivity instance;
+	//private InterstitialAd interstitial;
+	private StartAppAd startAppAd = new StartAppAd(this);
 	// Setup activity layout
 	@Override protected void onCreate (Bundle savedInstanceState)
 	{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 
-	    Chartboost.startWithAppId(this, "5435f3e9c26ee42dff220f84", "ed0f4daaa3d15ea7729c670929948af9d27cae51");//chartboost hoang...hotmail
+	    Chartboost.startWithAppId(this, "553f4baa43150f147ee74741", "ed0f4daaa3d15ea7729c670929948af9d27cae51");//chartboost hoang...hotmail
+
+	    //Chartboost.setImpressionsUseActivities(true);
+	    //Chartboost.setImpressionsUseActivities(false);
 		Chartboost.setLoggingLevel(Level.ALL);
 		Chartboost.setDelegate(delegate);
 	    /* Optional: If you want to program responses to Chartboost events, supply a delegate object here and see step (10) for more information */
@@ -53,10 +59,11 @@ public class UnityPlayerNativeActivity extends NativeActivity
 
 		mUnityPlayer = new UnityPlayer(this);
 		if (mUnityPlayer.getSettings ().getBoolean ("hide_status_bar", true))
-		{
+		{		
 			setTheme(android.R.style.Theme_NoTitleBar_Fullscreen);
 			getWindow ().setFlags (WindowManager.LayoutParams.FLAG_FULLSCREEN,
 			                       WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
 
 	//	setContentView(mUnityPlayer);
 		mUnityPlayer.requestFocus();
@@ -121,7 +128,7 @@ public static  int ShowAds()
 }
 public static  int ShowAdsBackup()
 {
-		//Chartboost.cacheInterstitial(CBLocation.LOCATION_DEFAULT);		
+		Chartboost.cacheInterstitial(CBLocation.LOCATION_DEFAULT);
 		Chartboost.showInterstitial(CBLocation.LOCATION_DEFAULT);
 		return 1;
 }	
