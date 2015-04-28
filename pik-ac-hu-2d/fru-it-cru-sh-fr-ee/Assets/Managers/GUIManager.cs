@@ -6,7 +6,7 @@ public class GUIManager : MonoBehaviour {
     
 	public Text textCount;
     public Text textTitleOver;
-    public Text textBestCount;
+    //public Text textBestCount;
 	public Text textCountOver;
 	public Text textBestCountOver;
     public Text textBestCountTitleOver;
@@ -48,7 +48,7 @@ public class GUIManager : MonoBehaviour {
 		gameOver.SetActive (false);
 		ScoreControl.init();
 		ScoreControl.loadGame();
-		instance.textBestCount.text = ScoreControl.score[0].NUM.ToString();
+		//instance.textBestCount.text = ScoreControl.score[0].NUM.ToString();
 		ShowADS();
 
 	}
@@ -63,7 +63,7 @@ public class GUIManager : MonoBehaviour {
 				firstShowAdsAtBegin = true;
 			timeShowAds = 0;
 			#if UNITY_ANDROID
-            using (AndroidJavaClass jc = new AndroidJavaClass("com.pika.chu.Onet.UnityPlayerNativeActivity"))
+            using (AndroidJavaClass jc = new AndroidJavaClass("com.xiaxio.fruit.UnityPlayerNativeActivity"))
 			{
 				jc.CallStatic<int>("ShowAds");
 			}
@@ -172,11 +172,11 @@ public class GUIManager : MonoBehaviour {
 		ingameMenu.SetActive (false);
 		gameOver.SetActive (false);
 
-        GamePlay.instance.objectMainMenu.gameObject.SetActive(true);
+    
         GamePlay.instance.objectInGame.gameObject.SetActive(false);
 
       //  MapCard.instance.InitReset();
-		instance.textBestCount.text = ScoreControl.score[0].NUM.ToString();
+		//instance.textBestCount.text = ScoreControl.score[0].NUM.ToString();
         MapCard.instance.cleanAllBoard();
 	}
 
@@ -249,7 +249,7 @@ public class GUIManager : MonoBehaviour {
 	{SoundEngine.play(SoundEngine.instance.click);
 		//  SoundEngine.getInstance().PlayOneShot(SoundEngine.getInstance()._soundclick);
 		#if UNITY_ANDROID
-            Application.OpenURL("market://details?id=com.pika.chu.Onet");
+    Application.OpenURL("market://details?id=com.xiaxio.fruit");
 		#elif UNITY_WP8
 		WP8Statics.RateApp("");
 		#elif UNITY_IOS

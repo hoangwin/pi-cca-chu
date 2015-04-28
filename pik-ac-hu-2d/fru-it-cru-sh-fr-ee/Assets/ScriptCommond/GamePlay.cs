@@ -12,7 +12,7 @@ public class GamePlay : MonoBehaviour
     public Transform effectObject1;
     public Transform effectObject2;
 
-    public Transform objectMainMenu;
+    
     public Transform objectInGame;
     public bool isHint;
     // Use this for initialization

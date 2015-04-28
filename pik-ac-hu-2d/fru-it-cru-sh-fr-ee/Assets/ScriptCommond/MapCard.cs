@@ -81,7 +81,7 @@ public class MapCard : MonoBehaviour {
     
     public void InitReset()
     {
-        GamePlay.instance.objectMainMenu.gameObject.SetActive(false);
+        
         GamePlay.instance.objectInGame.gameObject.SetActive(true);
         Debug.Log("Init Reset");
         if (mode == 0)
@@ -216,6 +216,7 @@ public class MapCard : MonoBehaviour {
         if (GamePlay.instance.tranformObjSelect != null)
             GamePlay.instance.tranformObjSelect.gameObject.GetComponent<Card>().objectBox.GetComponent<Renderer>().material.shader = PlatformManager.instance.shaderNormal;
         autoSortMap();
+		CardSelected = false;
         countCardLive = COL * ROW;
         GamePlay.instance.timeBegin = GamePlay.instance.sliderbar.maxValue;
         GamePlay.countHint = 3;
@@ -366,7 +367,10 @@ public class MapCard : MonoBehaviour {
             else // nếu thẻ hình thứ nhất đã chọn
                 if (x != CardX1 || y != CardY1)
                 {
-                    Debug.Log("Okie 0 :" + CardMatrix[y][x].Value + "," + CardMatrix[CardY1][CardX1].Value);
+                    Debug.Log("Okie 0 :" + y + "," + x);
+                    Debug.Log("Okie 1 :" + CardMatrix.Length + "," + "");
+                    
+                    Debug.Log("Okie 2 :" + CardMatrix[y][x].Value + "," + CardMatrix[CardY1][CardX1].Value);
                     // nếu thẻ hình thứ 2 giống thẻ hình thứ nhất
                     if (CardMatrix[y][x].Value == CardMatrix[CardY1][CardX1].Value)
                     {
@@ -448,7 +452,7 @@ public class MapCard : MonoBehaviour {
            // if (posCenter1.x == posCenter2.x || posCenter1.z == posCenter2.z)
             {
                 posCenter1.x = (posCenter1.x + posCenter2.x) / 2;
-                posCenter1.z = (posCenter1.z + posCenter2.z) / 2; 
+                posCenter1.y = (posCenter1.y + posCenter2.y) / 2; 
             }
           
         }
