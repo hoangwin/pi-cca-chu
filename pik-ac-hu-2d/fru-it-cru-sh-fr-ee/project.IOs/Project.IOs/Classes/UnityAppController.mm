@@ -31,8 +31,7 @@
 #include "Unity/EAGLContextHelper.h"
 #include "Unity/GlesHelper.h"
 #include "PluginBase/AppDelegateListener.h"
-#import "GoogleMobileAds/GADBannerView.h"//here
-#import "iAd/ADBannerView.h"
+
 
 bool	_ios42orNewer			= false;
 bool	_ios43orNewer			= false;
@@ -59,11 +58,6 @@ bool	_supportsMSAA			= false;
 
 
 @implementation UnityAppController
-@synthesize bannerView_;//here
-@synthesize bannerIsVisible ;
-@synthesize interstitial_;
-@synthesize iAdBannerView;
-@synthesize isShowAdmob;
 
 @synthesize unityView				= _unityView;
 @synthesize unityDisplayLink		= _unityDisplayLink;
@@ -104,139 +98,6 @@ bool	_supportsMSAA			= false;
 - (void)preStartUnity				{}
 
 
-
-//admob
-- (void)adView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(GADRequestError *)error {
-   // NSLog("aA","aa");//(@”aa”);
-    int i=0;
-    i++;
-}
-
-
-//iad
-- (void)bannerViewActionDidFinish:(ADBannerView *)banner{
-    NSLog(@"bannerview was selected");
-}
-
-- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
-{
-    return willLeave;
-}
-
-- (void)bannerViewDidLoadAd:(ADBannerView *)baner
-{
-    if (!self.bannerIsVisible)
-    {
-        NSLog(@"\nBanner Success");
-        [UIView beginAnimations:@"animateAdBannerOn" context:NULL];
-        // assumes the banner view is offset 50 pixels so that it is not visible.
-        
-        baner.frame = CGRectOffset(baner.frame,0,-94);
-        [UIView commitAnimations];
-        
-        self.bannerIsVisible = YES;
-    }
-}
-
-- (void)bannerView:(ADBannerView *)baner didFailToReceiveAdWithError:(NSError *)error
-{
-        if (!self.isShowAdmob)
-        {
-           isShowAdmob = true;
-           [self showAdmob];//here
-            
-        }
-
-    if (self.bannerIsVisible)
-    {
-        NSLog(@"\nBanner Failed");
-        [UIView beginAnimations:@"animateAdBannerOff" context:NULL];
-        
-        baner.frame = CGRectOffset(baner.frame, 0, 94);
-        [UIView commitAnimations];
-        
-        self.bannerIsVisible = NO;
-    }
-}
-//- (void)bannerView:(ADBannerView *)baner interstitialDidReceiveAd:(NSError *)error
-- (void)interstitialDidReceiveAd:(GADInterstitial *)interstitial
-{
-    [interstitial_ presentFromRootViewController:_rootController];
-    
-  //      self.bannerIsVisible = NO;
-  
-}
-- (void)interstitial:(GADInterstitial *)interstitial didFailToReceiveAdWithError:(GADRequestError *)error{
-    
-}
-
-//banner : xxxx
-// full : ca-app-pub-7342700401302892/9932483364
--(void) showAdmob
-{    
-    bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];//here
-    bannerView_.adUnitID = @"xxxx";//admob caogiaqn
-    // Let the runtime know which UIViewController to restore after taking
-    // the user wherever the ad goes and add it to the view hierarchy.
-    bannerView_.rootViewController = _rootController;
-    [_rootView addSubview:bannerView_];
-    [bannerView_ setFrame:CGRectMake(_rootView.bounds.size.width - bannerView_.bounds.size.width,  _rootView.bounds.size.height -  bannerView_.bounds.size.height,  bannerView_.bounds.size.width,bannerView_.bounds.size.height)];
-    // Initiate a generic request to load it with an ad.
-    [bannerView_ setDelegate:self];
-    [bannerView_ loadRequest:[GADRequest request]];
-}
--(void) showAdmobFullAds
-{
-    interstitial_ = [[GADInterstitial alloc] init];
-    interstitial_.adUnitID = @"ca-app-pub-7342700401302892/9932483364";
-
-    [interstitial_ setDelegate:self];
-   // interstitial_.delegate = self;
-    [interstitial_ loadRequest:[GADRequest request]];
-}
-- (void) showiAd
-{
-    // Specify the ad unit ID.
-    iAdBannerView = [[ADBannerView alloc] initWithFrame:CGRectZero];
-    [iAdBannerView setFrame:CGRectMake(_rootView.bounds.size.width - iAdBannerView.bounds.size.width,  _rootView.bounds.size.height -  iAdBannerView.bounds.size.height,  iAdBannerView.bounds.size.width,bannerView_.bounds.size.height)];
-    [iAdBannerView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-    [iAdBannerView setDelegate:self];
-    [self.unityView addSubview:iAdBannerView];
-    //dich chuyen truoc
-    [UIView beginAnimations:@"animateAdBannerOff" context:NULL];
-    iAdBannerView.frame = CGRectOffset(iAdBannerView.frame, 0, 94);
-    [UIView commitAnimations];
-    bannerIsVisible = false;
-    
-    isShowAdmob = false;//here
-}
-extern "C" {//here
-    
-	void NaticeShowAdsBanner (const char* phoneNumber, const char* bodyText)// chua dung vi dung thang trong 
-	{
-
-        //[GetAppController() OpenSMS];
-      //  [GetAppController() showAdmobFullAds];
-		//NSLog(@"Your message here end");
-	}
-		void NaticeShowAds(const char* phoneNumber, const char* bodyText)
-	{
-
-        //[GetAppController() OpenSMS];
-        [GetAppController() showAdmobFullAds];
-		NSLog(@"Your message here end");
-	}
-    void NaticeStopAds (const char* phoneNumber, const char* bodyText)
-	{
-        
-    }
-    
-}
-
-- (void)Open_SMS:(NSString *)phoneNumber second:(NSString *)bodyText
-{
-   
-}
 - (void)startUnity:(UIApplication*)application
 {
 	NSAssert(_unityAppReady == NO, @"[UnityAppController startUnity:] called after Unity has been initialized");
@@ -250,8 +111,6 @@ extern "C" {//here
 	Profiler_InitProfiler();
 
 	[self showGameUI];
-//rem here for banner	[self showiAd];//here
-	//[self showAdmob];//here
 	[self createDisplayLink];
 
 	UnitySetPlayerFocus(1);
@@ -434,9 +293,6 @@ extern "C" {//here
 
 	extern void SensorsCleanup();
 	SensorsCleanup();
-   bannerView_.delegate = nil;    
-    // Don't release the bannerView_ if you are using ARC in your project
-//    [bannerView_ release];
 }
 
 @end

@@ -4,13 +4,10 @@
 
 #include "PluginBase/RenderPluginDelegate.h"
 
-#import "GoogleMobileAds/GADBannerView.h"//here
-#import "GoogleMobileAds/GADInterstitial.h"
-#import "iAd/ADBannerView.h"
-
 @class UnityView;
 @class DisplayConnection;
-@interface UnityAppController : NSObject<GADBannerViewDelegate , ADBannerViewDelegate,GADInterstitialDelegate,UIApplicationDelegate>//here
+
+@interface UnityAppController : NSObject<UIApplicationDelegate>
 {
 	UnityView*			_unityView;
 	CADisplayLink*		_displayLink;
@@ -28,20 +25,7 @@
 
 
 	id<RenderPluginDelegate>	_renderDelegate;
-    GADBannerView *bannerView_;//here
-    GADInterstitial *interstitial_;
-    ADBannerView *iAdBannerView;
-    BOOL bannerIsVisible;
-    BOOL isShowAdmob;
 }
-@property (strong, nonatomic) GADBannerView *bannerView_;//here
-@property (strong, nonatomic) ADBannerView *iAdBannerView;
-@property (strong, nonatomic) GADInterstitial *interstitial_;
-@property (nonatomic, assign) BOOL bannerIsVisible;
-@property (nonatomic, assign) BOOL isShowAdmob;
-- (void) showAdmob;
-- (void) showiAd;
-- (void) showAdmobFullAds;
 
 // override it to add your render plugin delegate
 - (void)shouldAttachRenderDelegate;
