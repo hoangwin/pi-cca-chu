@@ -23,7 +23,7 @@ using System.Windows.Media.Imaging;
 using vservWindowsPhone;//Full Ads
 using InMobi.WP.AdSDK;
 using GoogleAds;
-namespace Onet3D
+namespace FruitCrushFree
 {
 	public partial class MainPage : PhoneApplicationPage
 	{
@@ -144,7 +144,7 @@ namespace Onet3D
         {
           //  if (interstitialAd == null)
             {
-                interstitialAd = new InterstitialAd("ca-app-pub-6844968633010430/4849810705");//mobilewp8
+                interstitialAd = new InterstitialAd("ca-app-pub-6844968633010430/3438515909");//mobilewp8
                 interstitialAd.ReceivedAd += OnAdReceivedFull;
                 interstitialAd.FailedToReceiveAd += OnFailedToReceiveAdFull;
             }            

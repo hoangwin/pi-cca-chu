@@ -58,9 +58,7 @@ public class ButtonAds : MonoBehaviour
     }
     public void ButtonMoreGamePress()
     {
-
         //        SoundEngine.isSoundMusic = !SoundEngine.isSoundMusic;
-
         if (index == 0)
             Application.OpenURL("http://www.aegamemobile.com/");
         else
@@ -69,15 +67,12 @@ public class ButtonAds : MonoBehaviour
         {
             MusicUiButton.normalSprite2D = music1Sprite;
             SoundEngine.getInstance().PlayLoop(SoundEngine.getInstance()._soundBG1);
-
         }
-
         else
         {
             MusicUiButton.normalSprite2D = music2Sprite;
             SoundEngine.getInstance().stopSound();
         }
-
         */
     }
 }

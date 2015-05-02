@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: c85530585a1ad8c4487e86c75accfc3b
-timeCreated: 1429960239
+timeCreated: 1430541644
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -66,8 +66,8 @@ TextureImporter:
     - name: SpriteStart_0
       rect:
         serializedVersion: 2
-        x: 71
-        y: 652
+        x: 53
+        y: 769
         width: 925
         height: 195
       alignment: 0

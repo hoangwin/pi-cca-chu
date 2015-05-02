@@ -63,16 +63,16 @@ public class GUIManager : MonoBehaviour {
 				firstShowAdsAtBegin = true;
 			timeShowAds = 0;
 			#if UNITY_ANDROID
-            using (AndroidJavaClass jc = new AndroidJavaClass("com.xiaxio.fruit.UnityPlayerNativeActivity"))
+            using (AndroidJavaClass jc = new AndroidJavaClass("com.xiaxio.twinscandy.UnityPlayerNativeActivity"))
 			{
 				jc.CallStatic<int>("ShowAds");
 			}
 			
-			#elif UNITY_WP8
+#elif UNITY_WP8
 			
 			WP8Statics.ShowAds("");
-			#elif UNITY_IOS
-			IOsStatic.ShowAds(" ", " ");
+#elif UNITY_IOS
+            IOsStatic.ShowAds(" ", " ");
 			#endif
 		}
 	}
@@ -249,10 +249,10 @@ public class GUIManager : MonoBehaviour {
 	{SoundEngine.play(SoundEngine.instance.click);
 		//  SoundEngine.getInstance().PlayOneShot(SoundEngine.getInstance()._soundclick);
 		#if UNITY_ANDROID
-    Application.OpenURL("market://details?id=com.xiaxio.fruit");
-		#elif UNITY_WP8
+    Application.OpenURL("market://details?id=com.xiaxio.twinscandy");
+#elif UNITY_WP8
 		WP8Statics.RateApp("");
-		#elif UNITY_IOS
+#elif UNITY_IOS
     Application.OpenURL("https://itunes.apple.com/us/app/fruit-crush-free-twin-fruit/id990844528?ls=1&mt=8");	
 		
 		//   IOsStatic.ShowAds(" ", " ");

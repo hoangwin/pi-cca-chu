@@ -253,11 +253,11 @@ public class GUIManager : MonoBehaviour {
 		#elif UNITY_WP8
 		WP8Statics.RateApp("");
 		#elif UNITY_IOS
-    Application.OpenURL("https://itunes.apple.com/us/app/impossible-game-2-cars/id978563572?ls=1&mt=8");	
+        Application.OpenURL("https://itunes.apple.com/us/app/onet-3d/id985582877?ls=1&mt=8");	
 		
 		//   IOsStatic.ShowAds(" ", " ");
-		#endif
-		
-	}
+#endif
+
+    }
 
 }

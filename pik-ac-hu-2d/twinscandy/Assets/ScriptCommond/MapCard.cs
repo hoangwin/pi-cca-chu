@@ -4,8 +4,8 @@ using System.Collections;
 public class MapCard : MonoBehaviour {
 
 	// Use this for initialization
-    public static int COL = 16;
-    public static int ROW = 10;
+    public static int COL = 10;
+    public static int ROW = 16;
     public static float CELL_WIDTH = 73;
     public static float CELL_HEIGHT = 80;
 
@@ -86,23 +86,23 @@ public class MapCard : MonoBehaviour {
         Debug.Log("Init Reset");
         if (mode == 0)
         {
-            COL = 10;
-            ROW = 6;
+            COL = 6;
+            ROW = 8;
             scaleBox = 1.625f;
-            GamePlay.instance.sliderbar.maxValue = 100;
+            GamePlay.instance.sliderbar.maxValue = 900;
         }
         else if (mode == 1)
         {
-            COL = 12;
-            ROW = 8;
+            COL = 8;
+            ROW = 11;
             scaleBox = 1.25f;
-            GamePlay.instance.sliderbar.maxValue = 180;
+            GamePlay.instance.sliderbar.maxValue = 170;
         }
         else
         {
-            GamePlay.instance.sliderbar.maxValue = 270;
-            COL = 16;
-            ROW = 10;
+            GamePlay.instance.sliderbar.maxValue = 240;
+            COL = 10;
+            ROW = 14;
             scaleBox = 1;
         }
         int MAX = (ROW + 2) * (COL + 2);
@@ -126,8 +126,11 @@ public class MapCard : MonoBehaviour {
 
         //align x
         float x = COL * _CELL_HEIGHT - _CELL_HEIGHT;
+        float y = ROW * _CELL_WIDTH - _CELL_WIDTH;
         x = x / 2;
-        templateGround.transform.position = new Vector3(x,templateGround.transform.position.y, templateGround.transform.position.z);
+        y = -y / 2;
+        int offsety = -3;
+        templateGround.transform.position = new Vector3(x, y + offsety, templateGround.transform.position.z);
         //end align x
         for (int i = 0; i < ROW + 2; i++)
         {
@@ -139,11 +142,8 @@ public class MapCard : MonoBehaviour {
 
                 if (i == 0 || i == ROW + 1 || j == 0 || j == COL + 1)
                 {
-
-                
                     if (CardMatrix[i][j] == null)
-                    {
-                       
+                    {                       
                         obj = (Instantiate(templateGround, templateGround.transform.position, Quaternion.identity));
                         tran = (Transform)obj;
                         tran.gameObject.SetActive(false);
@@ -153,24 +153,19 @@ public class MapCard : MonoBehaviour {
 
                         CardMatrix[i][j].Value = -1;
                         CardMatrix[i][j].X = j;
-                        CardMatrix[i][j].Y = i;
-                       
+                        CardMatrix[i][j].Y = i;                       
                     }
-
                 }
                 else
-                {
-                     
+                {                     
                     if (CardMatrix[i][j] == null)
                     {
-
                         if ((i + j) % 2 == 0)
                             obj = (Instantiate(templateGround, templateGround.transform.position, Quaternion.identity));
                         else
                             obj = (Instantiate(templateGround1, templateGround.transform.position, Quaternion.identity));
                         tran = (Transform)obj;
-                        tran.Translate((-j + 1) * _CELL_HEIGHT,(i - 1) * _CELL_WIDTH, 0);
-                        
+                        tran.Translate((-j + 1) * _CELL_HEIGHT,(i - 1) * _CELL_WIDTH, 0);                        
                     }
                     else
                     {
@@ -186,17 +181,16 @@ public class MapCard : MonoBehaviour {
                         //if (tran != null)
                             tran.localScale = scaleBox * tran.localScale;
                     }
-                    //  tran.Rotate(180, 0, 0);
-                    int value = ROW - 2;// 1 + ROW * COL / 16;
-                  //  Debug.Log(value);
-
+                    // tran.Rotate(180, 0, 0);
+                    int value = COL - 2;// 1 + ROW * COL / 16;
+                    // Debug.Log(value);
 
                     int _index = k / value;
-                    // Debug.Log(_index);
+                    //Debug.Log(_index);
                     Transform objChar = (Transform)(Instantiate(Character[_index], templateGround.transform.position, Quaternion.identity));
                     objChar.gameObject.SetActive(true);
                     objChar.Translate( (-j + 1) * _CELL_HEIGHT,(i - 1) * _CELL_WIDTH, 0);
-                  //  objChar.Rotate(-90, 0, 0);
+                    //  objChar.Rotate(-90, 0, 0);
                     //tran.parent = objChar;
                     objChar.parent = tran;
 
