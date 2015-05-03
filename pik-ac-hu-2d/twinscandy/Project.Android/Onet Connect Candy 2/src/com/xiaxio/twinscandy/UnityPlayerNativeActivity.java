@@ -45,14 +45,12 @@ public class UnityPlayerNativeActivity extends NativeActivity
 		super.onCreate(savedInstanceState);
 
 	    Chartboost.startWithAppId(this, "5544d088c909a624e3f1b311", "c37c38bd5204664480a5f6f198c7053ae7a0a658");//chartboost hoang...hotmail
-
-	    //Chartboost.setImpressionsUseActivities(true);
-	    //Chartboost.setImpressionsUseActivities(false);
 		Chartboost.setLoggingLevel(Level.ALL);
 		Chartboost.setDelegate(delegate);
+		Chartboost.onCreate(this);
 	    /* Optional: If you want to program responses to Chartboost events, supply a delegate object here and see step (10) for more information */
 	    //Chartboost.setDelegate(delegate);
-	    Chartboost.onCreate(this);
+	    //Chartboost.onCreate(this);
 		
 		getWindow().takeSurface(null);
 		getWindow().setFormat(PixelFormat.RGBX_8888); // <--- This makes xperia play happy
@@ -127,10 +125,23 @@ public static  int ShowAds()
 	return 1;
 }
 public static  int ShowAdsBackup()
-{
-		Chartboost.cacheInterstitial(CBLocation.LOCATION_DEFAULT);
+{	
+	 if (Chartboost.hasInterstitial(CBLocation.LOCATION_LEADERBOARD))	
+	{
+		//Chartboost.cacheInterstitial(CBLocation.LOCATION_LEADERBOARD);
+		Chartboost.showInterstitial(CBLocation.LOCATION_LEADERBOARD);
+	}	
+	else if (Chartboost.hasInterstitial(CBLocation.LOCATION_MAIN_MENU))	
+	{
+		//Chartboost.cacheInterstitial(CBLocation.LOCATION_MAIN_MENU);
+		Chartboost.showInterstitial(CBLocation.LOCATION_MAIN_MENU);
+	}else
+	{
+		//Chartboost.cacheInterstitial(CBLocation.LOCATION_DEFAULT);
 		Chartboost.showInterstitial(CBLocation.LOCATION_DEFAULT);
-		return 1;
+	}	
+	
+	return 1;
 }	
 	
 	static FrameLayout layout ;
@@ -334,6 +345,14 @@ public static  int ShowAdsBackup()
 	    super.onStop();
 	    Chartboost.onStop(this);
 	}
+	@Override
+	public void onBackPressed() {
+	    // If an interstitial is on screen, close it.
+	    if (Chartboost.onBackPressed())
+	        return;
+	    else
+	        super.onBackPressed();
+	}
 	// This ensures the layout will be correct.
 	@Override public void onConfigurationChanged(Configuration newConfig)
 	{
@@ -370,7 +389,8 @@ public static  int ShowAdsBackup()
 	private ChartboostDelegate delegate = new ChartboostDelegate() {
 		@Override
 		public boolean shouldRequestInterstitial(String location) {
-			Log.i("Chartboost ", "SHOULD REQUEST INTERSTITIAL '"+ (location != null ? location : "null"));		
+			Log.i("Chartboost ", "SHOULD REQUEST INTERSTITIAL '"+ (location != null ? location : "null"));
+			//here
 			return true;
 		}
 	
@@ -383,6 +403,7 @@ public static  int ShowAdsBackup()
 		@Override
 		public void didCacheInterstitial(String location) {
 			Log.i("Chartboost ", "DID CACHE INTERSTITIAL '"+ (location != null ? location : "null"));
+			//Chartboost.showInterstitial(location);
 		}
 	
 		@Override
