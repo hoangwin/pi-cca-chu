@@ -54,7 +54,7 @@ public class MapCard : MonoBehaviour {
         {
             isFistInit = true;
             CELL_WIDTH = ((Collider)(templateGround.GetComponent<Collider>())).bounds.size.x + 0.1f;
-            CELL_HEIGHT = ((Collider)(templateGround.GetComponent<Collider>())).bounds.size.z + 0.1f;
+            CELL_HEIGHT = ((Collider)(templateGround.GetComponent<Collider>())).bounds.size.y + 0.1f;
             templateGround.gameObject.SetActive(false);
         }
     }

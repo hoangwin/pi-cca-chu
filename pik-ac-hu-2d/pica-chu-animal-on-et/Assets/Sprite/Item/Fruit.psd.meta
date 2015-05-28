@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: b7e073ebb2ff3bb4abf15ec89674254f
-timeCreated: 1429933649
+timeCreated: 1432401180
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -72,25 +72,29 @@ TextureImporter:
     maxTextureSize: 1024
     textureFormat: -3
     compressionQuality: 50
+  - buildTarget: Android
+    maxTextureSize: 1024
+    textureFormat: -3
+    compressionQuality: 50
   spriteSheet:
     sprites:
     - name: Fruit_0
       rect:
         serializedVersion: 2
-        x: 99
-        y: 879
-        width: 58
-        height: 53
+        x: 106
+        y: 878
+        width: 46
+        height: 61
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Fruit_1
       rect:
         serializedVersion: 2
-        x: 165
-        y: 876
-        width: 47
-        height: 56
+        x: 163
+        y: 881
+        width: 48
+        height: 51
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -98,39 +102,39 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 217
-        y: 880
-        width: 56
-        height: 51
+        y: 882
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Fruit_3
       rect:
         serializedVersion: 2
-        x: 290
-        y: 877
-        width: 53
-        height: 52
+        x: 291
+        y: 881
+        width: 48
+        height: 51
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Fruit_4
       rect:
         serializedVersion: 2
-        x: 359
-        y: 871
-        width: 58
-        height: 56
+        x: 368
+        y: 880
+        width: 46
+        height: 46
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Fruit_5
       rect:
         serializedVersion: 2
-        x: 434
-        y: 877
-        width: 56
-        height: 56
+        x: 438
+        y: 879
+        width: 49
+        height: 54
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -139,7 +143,7 @@ TextureImporter:
         serializedVersion: 2
         x: 95
         y: 800
-        width: 51
+        width: 41
         height: 46
       alignment: 0
       pivot: {x: .5, y: .5}
@@ -147,40 +151,40 @@ TextureImporter:
     - name: Fruit_7
       rect:
         serializedVersion: 2
-        x: 145
-        y: 799
-        width: 52
-        height: 55
+        x: 154
+        y: 804
+        width: 46
+        height: 48
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Fruit_8
       rect:
         serializedVersion: 2
-        x: 214
-        y: 801
-        width: 53
-        height: 62
+        x: 212
+        y: 807
+        width: 48
+        height: 51
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Fruit_9
       rect:
         serializedVersion: 2
-        x: 292
-        y: 807
-        width: 51
-        height: 54
+        x: 295
+        y: 811
+        width: 46
+        height: 50
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Fruit_10
       rect:
         serializedVersion: 2
-        x: 454
-        y: 798
-        width: 53
-        height: 54
+        x: 461
+        y: 807
+        width: 46
+        height: 47
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -198,68 +202,68 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 85
-        y: 733
+        y: 745
         width: 48
-        height: 59
+        height: 43
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Fruit_13
       rect:
         serializedVersion: 2
-        x: 151
-        y: 750
-        width: 51
-        height: 48
+        x: 148
+        y: 740
+        width: 47
+        height: 47
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Fruit_14
       rect:
         serializedVersion: 2
-        x: 203
-        y: 751
-        width: 53
-        height: 47
+        x: 205
+        y: 745
+        width: 56
+        height: 53
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Fruit_15
       rect:
         serializedVersion: 2
-        x: 257
-        y: 743
-        width: 49
-        height: 54
+        x: 276
+        y: 748
+        width: 47
+        height: 47
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Fruit_16
       rect:
         serializedVersion: 2
-        x: 309
-        y: 747
-        width: 51
-        height: 61
+        x: 339
+        y: 750
+        width: 35
+        height: 52
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Fruit_17
       rect:
         serializedVersion: 2
-        x: 367
-        y: 750
-        width: 51
-        height: 48
+        x: 388
+        y: 754
+        width: 43
+        height: 44
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Fruit_18
       rect:
         serializedVersion: 2
-        x: 421
-        y: 751
-        width: 49
+        x: 441
+        y: 754
+        width: 46
         height: 47
       alignment: 0
       pivot: {x: .5, y: .5}
@@ -267,10 +271,10 @@ TextureImporter:
     - name: Fruit_19
       rect:
         serializedVersion: 2
-        x: 475
-        y: 751
-        width: 51
-        height: 47
+        x: 509
+        y: 752
+        width: 46
+        height: 46
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -278,9 +282,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 633
-        y: 750
-        width: 53
-        height: 50
+        y: 753
+        width: 54
+        height: 43
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

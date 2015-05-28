@@ -25,8 +25,8 @@ public class MyAds : MonoBehaviour {
     
     public static string STR_LOAD;
     public static int MAX_ADS = 0;
-    
-    public static string Link ="http://aegamemobile.com/MyAdsControl/index.php?GAME=ONET_3D&PLATFORM=";
+
+    public static string Link = "http://aegamemobile.com/MyAdsControl/index.php?GAME=BAN_TRUNG_KHUNG_LONG_THUANVIETGAME&PLATFORM=";
     //http://aegamemobile.com/MyAdsControl/index.php?GAME=BUBBLE_SHOOT_FREE&PLATFORM=IOS
     public static bool isLoadText = false;
     

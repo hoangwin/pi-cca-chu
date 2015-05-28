@@ -63,7 +63,7 @@ public class GUIManager : MonoBehaviour {
 				firstShowAdsAtBegin = true;
 			timeShowAds = 0;
 			#if UNITY_ANDROID
-            using (AndroidJavaClass jc = new AndroidJavaClass("com.xiaxio.fruit.UnityPlayerNativeActivity"))
+            using (AndroidJavaClass jc = new AndroidJavaClass("com.xiaxio.tappetstory.UnityPlayerNativeActivity"))
 			{
 				jc.CallStatic<int>("ShowAds");
 			}
@@ -249,7 +249,7 @@ public class GUIManager : MonoBehaviour {
 	{SoundEngine.play(SoundEngine.instance.click);
 		//  SoundEngine.getInstance().PlayOneShot(SoundEngine.getInstance()._soundclick);
 		#if UNITY_ANDROID
-    Application.OpenURL("market://details?id=com.xiaxio.fruit");
+    Application.OpenURL("market://details?id=com.xiaxio.tappetstory");
 		#elif UNITY_WP8
 		WP8Statics.RateApp("");
 		#elif UNITY_IOS
