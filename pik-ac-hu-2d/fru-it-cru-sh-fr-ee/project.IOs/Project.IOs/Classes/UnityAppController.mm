@@ -31,8 +31,6 @@
 #include "Unity/EAGLContextHelper.h"
 #include "Unity/GlesHelper.h"
 #include "PluginBase/AppDelegateListener.h"
-#import "GoogleMobileAds/GADBannerView.h"//here
-#import "iAd/ADBannerView.h"
 
 bool	_ios42orNewer			= false;
 bool	_ios43orNewer			= false;
@@ -373,6 +371,12 @@ extern "C" {//here
 {
 	::printf("-> applicationDidBecomeActive()\n");
 
+	if(_snapshotView)
+	{
+		[_snapshotView removeFromSuperview];
+		_snapshotView = nil;
+	}
+
 	if(_unityAppReady)
 	{
 		if(UnityIsPaused())
@@ -402,18 +406,19 @@ extern "C" {//here
 
 		// do pause unity only if we dont need special background processing
 		// otherwise batched player loop can be called to run user scripts
-
 		int bgBehavior = UnityGetAppBackgroundBehavior();
 		if(bgBehavior == appbgSuspend || bgBehavior == appbgExit)
 		{
+			// Force player to do one more frame, so scripts get a chance to render custom screen for minimized app in task manager.
+			// NB: UnityWillPause will schedule OnApplicationPause message, which will be sent normally inside repaint (unity player loop)
+			// NB: We will actually pause after the loop (when calling UnityPause).
 			UnityWillPause();
-
-			// Force player to do one more frame, so scripts get a chance to render custom screen for
-			// minimized app in task manager.
-			UnityPlayerLoop();
-			[self repaintDisplayLink];
-
+			[self repaint];
 			UnityPause(1);
+
+			_snapshotView = [self createSnapshotView];
+			if(_snapshotView)
+				[_rootView addSubview:_snapshotView];
 		}
 	}
 

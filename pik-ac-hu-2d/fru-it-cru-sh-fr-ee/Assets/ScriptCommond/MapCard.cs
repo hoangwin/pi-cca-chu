@@ -367,10 +367,10 @@ public class MapCard : MonoBehaviour {
             else // nếu thẻ hình thứ nhất đã chọn
                 if (x != CardX1 || y != CardY1)
                 {
-                    Debug.Log("Okie 0 :" + y + "," + x);
-                    Debug.Log("Okie 1 :" + CardMatrix.Length + "," + "");
+                   // Debug.Log("Okie 0 :" + y + "," + x);
+                  //  Debug.Log("Okie 1 :" + CardMatrix.Length + "," + "");
                     
-                    Debug.Log("Okie 2 :" + CardMatrix[y][x].Value + "," + CardMatrix[CardY1][CardX1].Value);
+                   // Debug.Log("Okie 2 :" + CardMatrix[y][x].Value + "," + CardMatrix[CardY1][CardX1].Value);
                     // nếu thẻ hình thứ 2 giống thẻ hình thứ nhất
                     if (CardMatrix[y][x].Value == CardMatrix[CardY1][CardX1].Value)
                     {

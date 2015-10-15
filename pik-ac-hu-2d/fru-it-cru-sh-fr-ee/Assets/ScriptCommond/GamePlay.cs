@@ -81,9 +81,7 @@ public class GamePlay : MonoBehaviour
                         GUIManager.instance.textBestCountTitleOver.text = "BEST TIME(HARD MODE)";
                         GUIManager.instance.textBestCountOver.text = mScoreHard.NUM.ToString();
                         GUIManager.instance.textCountOver.text = "NA";
-                    }
-
-                    
+                    }                    
                     SoundEngine.play(SoundEngine.instance.lose);
                     GUIManager.ShowADS();
                 }
