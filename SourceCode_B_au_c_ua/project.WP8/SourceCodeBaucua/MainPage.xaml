@@ -1,0 +1,42 @@
+<phone:PhoneApplicationPage 
+    x:Class="SourceCodeBaucua.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}" Orientation="Portrait" SupportedOrientations="PortraitOrLandscape" BackKeyPress="PhoneApplicationPage_BackKeyPress" OrientationChanged="PhoneApplicationPage_OrientationChanged"
+    xmlns:rma="clr-namespace:RateMyApp.Controls;assembly=RateMyApp">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <DrawingSurfaceBackgroundGrid x:Name="DrawingSurfaceBackground" Loaded="DrawingSurfaceBackground_Loaded">
+        <rma:FeedbackOverlay Grid.RowSpan="2"
+            EnableAnimation="True"
+            RatingTitle="Rating Game"
+            RatingMessage1="We'd love you to rate our app 5 stars.Showing us some love on the store helps us to continue to work on the app and make things even better!"
+            RatingMessage2="You look to be getting a lot of use out of our application!
+                        Why not give us a 5 star rating to show your appreciation?"
+            RatingYes="Yes"
+            RatingNo="No"
+            FeedbackTitle="Can we make it better?"
+            FeedbackMessage1="Sorry to hear you didn't want to rate My Game.
+Tell us about your experience or suggest 
+how we can make it even better."
+            FeedbackYes="Yes"
+            FeedbackNo="No"
+            FeedbackTo="toan_stt@hotmail.com"
+            FeedbackSubject="Bau Cua Tom Ca : Customer Feedback"
+            FeedbackBody="[Your feedback here]"
+            CompanyName="CaoGia Mobile"
+            ApplicationName="Bau Cua Tom Ca"
+            FirstCount="4"
+            SecondCount="8"
+            CountDays="False"
+           />
+    </DrawingSurfaceBackgroundGrid>
+
+</phone:PhoneApplicationPage>
