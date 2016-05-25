@@ -68,7 +68,7 @@ public class GUIManager : MonoBehaviour {
 				firstShowAdsAtBegin = true;
 			timeShowAds = 0;
 			#if UNITY_ANDROID
-            using (AndroidJavaClass jc = new AndroidJavaClass("com.pikachu.Onet.newversion.UnityPlayerNativeActivity"))
+            using (AndroidJavaClass jc = new AndroidJavaClass("com.pikachu.Onet.newversion.UnityPlayerActivity"))
 			{
 				jc.CallStatic<int>("ShowAds");
 			}

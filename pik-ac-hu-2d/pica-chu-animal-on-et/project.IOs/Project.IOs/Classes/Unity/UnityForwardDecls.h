@@ -82,7 +82,7 @@ typedef struct RenderSurfaceBase* UnityRenderBuffer;
 typedef struct
 UnityRenderBufferDesc
 {
-	unsigned	width, height;
+	unsigned	width, height, depth;
 	unsigned	samples;
 
 	int			backbuffer;

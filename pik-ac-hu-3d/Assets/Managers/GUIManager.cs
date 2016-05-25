@@ -49,7 +49,7 @@ public class GUIManager : MonoBehaviour {
 		ScoreControl.init();
 		ScoreControl.loadGame();
 		instance.textBestCount.text = ScoreControl.score[0].NUM.ToString();
-		ShowADS();
+	
 
 	}
 	public static void ShowADS()

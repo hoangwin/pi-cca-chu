@@ -52,7 +52,7 @@ public class UnityPlayerActivity extends Activity
 		layout.addView(playerView);
 	}
 
-	public static int ShowAdsFull() {
+	public static int ShowAds() {
 		UnityPlayerActivity.loadInterstitialAdFaceBook(instance);
 		// ShowAdsBackup();
 		// instance.ShowAdmobFull();
@@ -65,10 +65,8 @@ public class UnityPlayerActivity extends Activity
 		Collection<String> TestDevices = new ArrayList<String>();
 		TestDevices.add("403706e6d09a7de076ce069c9bc804ec");
 		com.facebook.ads.AdSettings.addTestDevices(TestDevices);
-		com.facebook.ads.AdSettings
-				.addTestDevice("2a2ab03d07ce6eaced63502d841a103e");
-		com.facebook.ads.AdSettings
-				.addTestDevice("090021134d2dc35fe0e3dceb8b361de1");
+		com.facebook.ads.AdSettings.addTestDevice("2a2ab03d07ce6eaced63502d841a103e");
+		com.facebook.ads.AdSettings.addTestDevice("090021134d2dc35fe0e3dceb8b361de1");
 
 		layout.addView(adViewFaceBook, adsParams);
 		adViewFaceBook.setAdListener(new com.facebook.ads.AdListener() {

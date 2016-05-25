@@ -366,7 +366,7 @@ public class MapCard : MonoBehaviour {
             else // nếu thẻ hình thứ nhất đã chọn
                 if (x != CardX1 || y != CardY1)
                 {
-                    Debug.Log("Okie 0 :" + CardMatrix[y][x].Value + "," + CardMatrix[CardY1][CardX1].Value);
+                   // Debug.Log("Okie 0 :" + CardMatrix[y][x].Value + "," + CardMatrix[CardY1][CardX1].Value);
                     // nếu thẻ hình thứ 2 giống thẻ hình thứ nhất
                     if (CardMatrix[y][x].Value == CardMatrix[CardY1][CardX1].Value)
                     {
@@ -389,7 +389,7 @@ public class MapCard : MonoBehaviour {
                         if (rCount != 10000) // tìm thấy đường đi rẽ
                         // íthơn 2 lần
                         {
-                            Debug.Log("rCount :" + rCount);
+                         //   Debug.Log("rCount :" + rCount);
                         //    countFrameDrawPath = 4;
                          //   countFrameDrawAddScrore = 4;
                             Random a = new Random();

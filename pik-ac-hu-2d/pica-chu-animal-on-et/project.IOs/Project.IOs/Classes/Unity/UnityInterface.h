@@ -40,11 +40,12 @@ void	UnityWillPause();					// send the message that app will pause
 void	UnityWillResume();					// send the message that app will resume
 void	UnityOnApplicationWillResignActive();
 void	UnityInputProcess();
+void	UnityDeliverUIEvents();				// unity processing impacting UI will be called in there
 
 
 // rendering
 
-int		UnityIsRenderingAPISupported(int renderingApi);
+int		UnityGetRenderingAPIs(int capacity, int* outAPIs);
 int		UnityHasRenderingAPIExtension(const char* extension);
 void	UnityFinishRendering();
 
@@ -55,21 +56,32 @@ UnityRenderBuffer	UnityCreateExternalSurfaceGLES(UnityRenderBuffer surf, int isC
 UnityRenderBuffer	UnityCreateExternalSurfaceMTL(UnityRenderBuffer surf, int isColor, MTLTextureRef tex, const UnityRenderBufferDesc* desc);
 UnityRenderBuffer	UnityCreateExternalColorSurfaceMTL(UnityRenderBuffer surf, MTLTextureRef tex, MTLTextureRef resolveTex, const UnityRenderBufferDesc* desc);
 UnityRenderBuffer	UnityCreateExternalDepthSurfaceMTL(UnityRenderBuffer surf, MTLTextureRef tex, MTLTextureRef stencilTex, const UnityRenderBufferDesc* desc);
-UnityRenderBuffer	UnityCreateDummySurface(int api, UnityRenderBuffer surf, int isColor, const UnityRenderBufferDesc* desc);
-void				UnityDestroyExternalSurface(int api, UnityRenderBuffer surf);
+// creates "dummy" surface - will indicate "missing" buffer (e.g. depth-only RT will have color as dummy)
+UnityRenderBuffer	UnityCreateDummySurface(UnityRenderBuffer surf, int isColor, const UnityRenderBufferDesc* desc);
 
+// disable rendering to render buffers (all Cameras that were rendering to one of buffers would be reset to use backbuffer)
 void	UnityDisableRenderBuffers(UnityRenderBuffer color, UnityRenderBuffer depth);
+// destroys render buffer
+void	UnityDestroyExternalSurface(UnityRenderBuffer surf);
+// sets current render target
+void	UnitySetRenderTarget(UnityRenderBuffer color, UnityRenderBuffer depth);
+// final blit to backbuffer
+void	UnityBlitToBackbuffer(UnityRenderBuffer srcColor, UnityRenderBuffer dstColor, UnityRenderBuffer dstDepth);
+// signal unity that we start new frame with given backbuffer
+void	UnityStartFrame(UnityRenderBuffer color, UnityRenderBuffer depth);
+// signal unity that we are about to end current frame
+void	UnityEndFrame();
+
+
+// This must match the one in ApiEnumsGLES.h
+typedef enum UnityFramebufferTarget
+{
+	kDrawFramebuffer = 0,
+	kReadFramebuffer,
+	kFramebufferTargetCount
+}UnityFramebufferTarget;
+void	UnityBindFramebuffer(UnityFramebufferTarget target, int fbo);
 void	UnityRegisterFBO(UnityRenderBuffer color, UnityRenderBuffer depth, unsigned fbo);
-void	UnitySetAsDefaultFBO(UnityRenderBuffer color, UnityRenderBuffer depth);
-void	UnitySetFBO(UnityRenderBuffer color, UnityRenderBuffer depth);
-
-
-void	UnityStartMetalFrame(UnityRenderBuffer colorRB, UnityRenderBuffer depthRB, int frameNumber);
-MTLCommandBufferRef UnityPrepareEndMetalFrame();
-void	UnityFinishedMetalFrame(int frameNumber);
-void	UnitySetAsDefaultFBOMetal(UnityRenderBuffer color, UnityRenderBuffer depth);
-void	UnitySetFBOMetal(UnityRenderBuffer color, UnityRenderBuffer depth);
-void	UnityBlitToSystemFBOMetal(MTLTextureRef bltex, unsigned w, unsigned h, unsigned sysw, unsigned sysh);
 
 // metal plugins support
 
@@ -94,7 +106,6 @@ MTLTextureRef			UnityRenderBufferStencilMTLTexture(UnityRenderBuffer buffer);
 void	UnitySetAudioSessionActive(int active);
 void	UnityGLInvalidateState();
 void	UnityReloadResources();
-void	UnityBlitToSystemFB(unsigned tex, unsigned w, unsigned h, unsigned sysw, unsigned sysh);
 int		UnityIsCaptureScreenshotRequested();
 void	UnityCaptureScreenshot();
 void	UnitySendMessage(const char* obj, const char* method, const char* msg);
@@ -154,6 +165,7 @@ void	UnitySendRemoteNotificationError(NSError* error);
 
 void	UnityADBannerViewWasClicked();
 void	UnityADBannerViewWasLoaded();
+void	UnityADBannerViewFailedToLoad();
 void	UnityADInterstitialADWasLoaded();
 void	UnityUpdateDisplayList();
 
@@ -265,7 +277,7 @@ void			UnityGetJoystickAxisName(int idx, int axis, char* buffer, int maxLen);
 void			UnityGetNiceKeyname(int key, char* buffer, int maxLen);
 
 // UnityAppController+Rendering.mm
-void			UnityInitMainScreenRenderingCallback(int* screenWidth, int* screenHeight);
+void			UnityInitMainScreenRenderingCallback();
 void			UnityGfxInitedCallback();
 void			UnityPresentContextCallback(struct UnityFrameStats const* frameStats);
 void			UnityFramerateChangeCallback(int targetFPS);
@@ -277,12 +289,16 @@ MTLCommandQueueRef	UnityGetMetalCommandQueue();
 
 EAGLContext*		UnityGetDataContextEAGL();
 
+UnityRenderBuffer	UnityBackbufferColor();
+UnityRenderBuffer	UnityBackbufferDepth();
+
 // UI/ActivityIndicator.mm
 void			UnityStartActivityIndicator();
 void			UnityStopActivityIndicator();
 
 // UI/Keyboard.mm
-void			UnityKeyboard_Show(unsigned keyboardType, int autocorrection, int multiline, int secure, int alert, const char* text, const char* placeholder);
+void			UnityKeyboard_Create(unsigned keyboardType, int autocorrection, int multiline, int secure, int alert, const char* text, const char* placeholder);
+void			UnityKeyboard_Show();
 void			UnityKeyboard_Hide();
 void			UnityKeyboard_GetRect(float* x, float* y, float* w, float* h);
 void			UnityKeyboard_SetText(const char* text);
@@ -329,6 +345,7 @@ const char*		UnitySystemLanguage();
 // Unity/DisplayManager.mm
 EAGLContext*	UnityGetMainScreenContextGLES();
 EAGLContext*	UnityGetContextEAGL();
+void			UnityStartFrameRendering();
 
 // Unity/Filesystem.mm
 const char*		UnityApplicationDir();
