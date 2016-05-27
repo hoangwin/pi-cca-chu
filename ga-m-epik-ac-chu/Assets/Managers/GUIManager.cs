@@ -268,13 +268,13 @@ public class GUIManager : MonoBehaviour {
     }
 	public void ButtonRatePress()
 	{SoundEngine.play(SoundEngine.instance.click);
-		//  SoundEngine.getInstance().PlayOneShot(SoundEngine.getInstance()._soundclick);
-		#if UNITY_ANDROID
-            Application.OpenURL("market://details?id=com.pika.chu.Onet");
-		#elif UNITY_WP8
+        //  SoundEngine.getInstance().PlayOneShot(SoundEngine.getInstance()._soundclick);
+#if UNITY_ANDROID
+            Application.OpenURL("market://details?id=com.pikachu.Onet.newversion");
+#elif UNITY_WP8
 		WP8Statics.RateApp("");
-		#elif UNITY_IOS
-        Application.OpenURL("https://itunes.apple.com/us/app/onet-3d/id985582877?ls=1&mt=8");	
+#elif UNITY_IOS
+        Application.OpenURL("https://itunes.apple.com/us/app/game-picachu-new/id1117756268?ls=1&mt=8");	
 		
 		//   IOsStatic.ShowAds(" ", " ");
 #endif
