@@ -89,6 +89,8 @@ public class MapCard : MonoBehaviour {
             COL = 10;
             ROW = 6;
             scaleBox = 1.625f;
+            GamePlay.instance.m_RendererTheme1.material.color = GamePlay.instance.m_colorTheme[0];
+            GamePlay.instance.m_RendererTheme2.material.color = GamePlay.instance.m_colorTheme[1];
             GamePlay.instance.sliderbar.maxValue = 100;
         }
         else if (mode == 1)
@@ -96,10 +98,14 @@ public class MapCard : MonoBehaviour {
             COL = 12;
             ROW = 8;
             scaleBox = 1.25f;
+            GamePlay.instance.m_RendererTheme1.material.color = GamePlay.instance.m_colorTheme[2];
+            GamePlay.instance.m_RendererTheme2.material.color = GamePlay.instance.m_colorTheme[3];
             GamePlay.instance.sliderbar.maxValue = 180;
         }
         else
         {
+            GamePlay.instance.m_RendererTheme1.material.color = GamePlay.instance.m_colorTheme[4];
+            GamePlay.instance.m_RendererTheme2.material.color = GamePlay.instance.m_colorTheme[5];
             GamePlay.instance.sliderbar.maxValue = 270;
             COL = 16;
             ROW = 10;

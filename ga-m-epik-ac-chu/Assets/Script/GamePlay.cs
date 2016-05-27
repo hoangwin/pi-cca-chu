@@ -29,6 +29,9 @@ public class GamePlay : MonoBehaviour
     public static SuperInt mScoreNormal = new SuperInt(0, "SCORENormal");
     public static SuperInt mScoreHard = new SuperInt(0, "SCOREHard");
 
+    public Color[] m_colorTheme;
+    public Renderer m_RendererTheme1;
+    public Renderer m_RendererTheme2;
     bool isTouch;
 
     public static GamePlay instance;

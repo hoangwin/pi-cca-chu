@@ -200,9 +200,7 @@ bool	_supportsMSAA			= false;
 }
 -(void) showAdmobFullAds
 {
-    interstitial_ = [[GADInterstitial alloc] init];
-    interstitial_.adUnitID = @"ca-app-pub-7342700401302892/9566246962";
-
+	interstitial_ =  [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-7342700401302892/9566246962"];
     [interstitial_ setDelegate:self];
    // interstitial_.delegate = self;
     [interstitial_ loadRequest:[GADRequest request]];
